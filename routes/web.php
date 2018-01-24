@@ -54,6 +54,8 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     });
 
     $router->post('user/login', 'LoginController@login');
+
+    $router->get('qr-code', 'SummaryController@qrCode');
 });
 
 

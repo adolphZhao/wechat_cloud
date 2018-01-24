@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Services\SummaryService;
 use Illuminate\Http\Request;
+use SimpleSoftwareIO\QrCode\BaconQrCodeGenerator;
 
 class SummaryController extends Controller
 {
@@ -43,5 +44,17 @@ class SummaryController extends Controller
     {
         $data = $this->summaryService->all();
         return definedResponse($data);
+    }
+
+    public function qrCode(Request $request)
+    {
+        /**
+         * @var BaconQrCodeGenerator $qrcode
+         */
+        $qrcode = app(BaconQrCodeGenerator::class);
+
+        echo 'data:image/jpg;base64,'.base64_encode($qrcode->size(200)->format('png')->generate($request->input('url'))) ;
+
+        exit;
     }
 }
