@@ -37,6 +37,13 @@ class SummaryService
     {
         $domains = $this->repository->all();
 
+        foreach ($domains as $idx => $domain) {
+            $d = array_get($domain, 'domain');
+            $host = sprintf('http://%s/vod.dhtml?vid=15', $d);
+            $imgdata = $this->repository->getQrCode($host);
+            array_set($domains, "$idx.imgdata", $imgdata);
+        }
+
         return $domains;
     }
 }
