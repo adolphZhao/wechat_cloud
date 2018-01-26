@@ -26,6 +26,8 @@ $app = new Laravel\Lumen\Application(
 
 $app->configure('database.php');
 
+$app->configure('cache.php');
+
 $app->withFacades();
 
 $app->withEloquent();

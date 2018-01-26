@@ -48,7 +48,15 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
         $router->put('/{id:\d+}', 'SummaryController@update');
     });
 
-    $router->group(['prefix' => 'user','middleware' => 'auth'], function () use ($router) {
+    $router->group(['prefix' => 'page-settings', 'middleware' => 'auth'], function () use ($router) {
+        $router->get('/', 'PageSettingsController@all');
+        $router->get('/{id:\d+}', 'PageSettingsController@get');
+        $router->post('/', 'PageSettingsController@create');
+        $router->delete('/{id:\d+}', 'PageSettingsController@delete');
+        $router->put('/{id:\d+}', 'PageSettingsController@update');
+    });
+
+    $router->group(['prefix' => 'user', 'middleware' => 'auth'], function () use ($router) {
 
         $router->get('/detail', 'LoginController@detail');
     });
@@ -56,6 +64,11 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->post('user/login', 'LoginController@login');
 
     $router->get('qr-code', 'SummaryController@qrCode');
+
+    $router->group(['prefix' => 'public'], function () use ($router) {
+
+        $router->get('/view.html', 'API\PageViewController@view');
+    });
 });
 
 
