@@ -15,7 +15,7 @@ class AlterPageInterfaceConfig extends Migration
     {
         Schema::table('page_interface_settings', function (Blueprint $table) {
             $table->integer('published')->default(0);
-            $table->timestamp('publish_time')->nullable();
+            $table->timestamp(  'publish_time')->nullable();
         });
     }
 
