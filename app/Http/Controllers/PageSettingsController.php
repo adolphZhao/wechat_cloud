@@ -48,4 +48,10 @@ class PageSettingsController extends Controller
         $data = $this->settingsService->all();
         return definedResponse($data);
     }
+
+    public function publish($vid)
+    {
+        $data = $this->settingsService->publish($vid);
+        return definedResponse($data);
+    }
 }

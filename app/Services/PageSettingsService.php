@@ -58,4 +58,12 @@ class PageSettingsService
 
         return $settings;
     }
+
+    public function publish($vid)
+    {
+        $settings = $this->repository->get($vid);
+        $this->repository->publish($vid);
+        \Cache::put('PAGE_TEMPLATE_' . $vid, @json_encode($settings), 3600 * 24 * 7);
+        return $settings->description;
+    }
 }

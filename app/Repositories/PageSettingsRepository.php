@@ -10,6 +10,7 @@ namespace App\Repositories;
 
 
 use App\Models\PageSettings;
+use Carbon\Carbon;
 
 class PageSettingsRepository
 {
@@ -41,5 +42,11 @@ class PageSettingsRepository
         $settings = PageSettings::query()->get()->toArray();
 
         return $settings;
+    }
+
+    public function publish($vid)
+    {
+        PageSettings::query()->update(['published'=> 0]);
+        return PageSettings::query()->where('id', $vid)->update(['published'=> 1,'publish_time'=>Carbon::now()->format('y-m-d H:i:s')]);
     }
 }

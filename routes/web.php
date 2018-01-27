@@ -54,6 +54,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
         $router->post('/', 'PageSettingsController@create');
         $router->delete('/{id:\d+}', 'PageSettingsController@delete');
         $router->put('/{id:\d+}', 'PageSettingsController@update');
+        $router->post('/{id:\d+}', 'PageSettingsController@publish');
     });
 
     $router->group(['prefix' => 'user', 'middleware' => 'auth'], function () use ($router) {
