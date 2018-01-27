@@ -14,10 +14,9 @@ class PageViewController extends Controller
         $this->service = $service;
     }
 
-    public function view(Request $request)
+    public function view(Request $request,$id)
     {
-        $format = $request->format();
-        return $this->service->render($format);
+        return $this->service->render($id);
     }
 
 }
