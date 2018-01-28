@@ -18,6 +18,12 @@ class WechatSettingsRepository
         return $bindUrls;
     }
 
+    public function getHosts()
+    {
+        $bindUrls = WechatBindUrl::query()->get(['hosts'])->toArray();
+        return $bindUrls;
+    }
+
     public function delete($pid)
     {
         WechatBindUrl::query()->where('id', $pid)->delete();

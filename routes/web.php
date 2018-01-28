@@ -68,7 +68,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
     $router->group(['prefix' => 'public'], function () use ($router) {
 
-        $router->get('/view-{id:\d+}.html', 'API\PageViewController@view');
+        $router->get('/view-{code}.shtml', 'API\PageViewController@view');
     });
 });
 

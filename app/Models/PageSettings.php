@@ -19,7 +19,8 @@ class PageSettings extends BaseModel
         'ad_back_show',
         'ad_author_show',
         'ad_original_show',
-        'description'
+        'description',
+        'report'
     ];
 
     protected $table = 'page_interface_settings';

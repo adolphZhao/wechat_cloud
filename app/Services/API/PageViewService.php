@@ -3,9 +3,9 @@ namespace App\Services\API;
 
 class PageViewService
 {
-    public function render($id)
+    public function render($code)
     {
-        $html =  \Cache::get('PAGE_TEMPLATE_'.$id);
+        $html =  \Cache::get('PAGE_TEMPLATE_'.$code);
         header('Content-Type: text/html');
         echo  $html;
         exit;

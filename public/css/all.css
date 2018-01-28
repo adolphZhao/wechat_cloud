@@ -1,0 +1,125 @@
+*{
+	margin:0;
+	padding:0;
+	border:0;
+	box-sizing: border-box;
+}
+a{
+	text-decoration: none;
+}
+body{
+	background:#F3F3F3;
+}
+.box{
+	 width: 100%;
+	 height: auto;
+	 overflow: hidden;
+	 background: #fff;
+	 padding:5px 15px 15px;
+}
+header{
+    font-weight: 400;
+    font-size: 24px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+.title{
+	width: 100%;
+	line-height: 20px;
+    vertical-align: middle;
+    margin-right: 8px;
+    margin-bottom: 10px;
+}
+.title .time{
+	color:#8c8c8c;
+	margin-right:8px;
+    font-size: 16px;
+}
+.title .born{
+	color:#607fa6;
+    font-size: 17px;
+}
+.box-image1{
+	width: 100%;
+	margin:auto auto 5px auto;
+}
+.box-image1 img {
+	width:100%;
+}
+.box-audio{
+	width: 100%;
+	height: 200px;
+	margin:auto auto 5px auto;
+}
+.readtextimg{
+	width: 100%;
+	height: 40px;
+}
+.readtextimg img{
+	width: 100%;
+	height: 100%;
+}
+div img {
+	width:100%;
+}
+footer{
+	width: 100%;
+	height: auto;
+	padding-top:10px;
+	line-height: 32px;
+	font-size: 17px;
+}
+footer .readtext{
+	color:#607fa6;
+	margin-right: 10px;
+}
+footer .read{
+	color:#8c8c8c;
+}
+footer .good{
+	margin-left: 8px;
+	color:#8c8c8c;
+}
+.foot-icon{
+    background:url('../images/zan1.png?2017110701') no-repeat 0 0;
+    width: 13px;
+    height: 13px;
+    display: inline-block;
+    background-size: 100% auto;
+    margin-right:6px;
+ }
+ .foot-icon2{
+    background:url('../images/zan2.png?2017110701') no-repeat 0 0;
+    width: 13px;
+    height: 13px;
+    display: inline-block;
+    background-size: 100% auto;
+    margin-right:6px;
+    display: none;
+ }
+.complaint{
+	float: right;
+	color:#8c8c8c;
+}
+.line{
+    line-height: 16px;
+    border-top: 1px dotted #e1e1e1;
+    margin-top: 25px;
+    margin-bottom: 0;
+    min-height: 24px;
+    text-align: center;
+}
+.line .ad{
+	position: relative;
+	font-size: 17px;
+    top: -11px;
+    padding-left: 6px;
+    padding-right: 6px;
+    background-color: #f3f3f3;
+    color: #868686;
+}
+body{background-color:#333;}
+.container-bg{height:40px;text-align:center;padding-top:10px;color:#999;font-size:80%;display:block;}
+.container{position:absolute;top:0;bottom:0;left:0;right:0;}
+.container #scroll{position:absolute;background-color:#f3f3f3;z-index:100;width:100%;}
+#s{display:none;width:100%;position:fixed;z-index:999;top:0px;left:0px;}
