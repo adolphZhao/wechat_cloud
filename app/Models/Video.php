@@ -6,10 +6,9 @@ class Video extends BaseModel
     protected $fillable = [
         'id',
         'code',
-        'stop_time'
+        'stop_time',
+        'weight'
     ];
-
-    protected $hidden=['created_at','updated_at'];
 
     protected $table = 'wechat_public_videos';
 

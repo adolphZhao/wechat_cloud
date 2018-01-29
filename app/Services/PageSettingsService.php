@@ -192,12 +192,14 @@ class PageSettingsService
                 $videoConfigTable . '.title',
                 $videoConfigTable . '.image'
             ])
+            ->orderBy('weight', 'DESC')
+            ->forPage(1, 3)
             ->get()
             ->toArray();
 
         $hosts = $this->settingsRepository->getHosts();
         $hosts = array_map(function ($host) {
-            return ['hosts'=>sprintf('http://%s/public/', $host['hosts'])];
+            return ['hosts' => sprintf('http://%s/public/', $host['hosts'])];
         }, $hosts);
 
         $dynamicData->hosts = $hosts;
