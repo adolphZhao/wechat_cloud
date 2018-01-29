@@ -1,6 +1,8 @@
 <?php
 namespace App\Services;
 
+use App\Models\PageSettings;
+use App\Models\Video;
 use App\Repositories\SummaryRepository;
 
 class SummaryService
@@ -37,11 +39,22 @@ class SummaryService
     {
         $domains = $this->repository->all();
 
-        foreach ($domains as $idx => $domain) {
-            $d = array_get($domain, 'domain');
-            $host = sprintf('http://%s/vod.dhtml?vid=15', $d);
-            $imgdata = $this->repository->getQrCode($host);
-            array_set($domains, "$idx.imgdata", $imgdata);
+        $videoTable = (new Video())->getTable();
+        $pageSettingsTable = (new PageSettings())->getTable();
+
+        $video = PageSettings::query()
+            ->join($videoTable, 'video_id', '=', "$videoTable.id")
+            ->where("$pageSettingsTable.published", 1)
+            ->select(["$videoTable.*"])
+            ->first();
+        if ($video) {
+            foreach ($domains as $idx => $domain) {
+                $d = array_get($domain, 'domain');
+                $host = sprintf('http://%s/public/view-%s.shtml', $d, $video->code);
+                $imgdata = $this->repository->getQrCode($host);
+                array_set($domains, "$idx.imgdata", $imgdata);
+                array_set($domains[$idx], 'url', $host);
+            }
         }
 
         return $domains;

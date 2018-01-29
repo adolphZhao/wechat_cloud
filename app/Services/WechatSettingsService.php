@@ -16,7 +16,7 @@ class WechatSettingsService
     {
         $settings = $this->repository->get($vid);
         $hosts = $this->repository->getConfig($vid);
-        array_set($settings, 'config', $hosts);
+        $settings->config = $hosts;
 
         return $settings;
     }

@@ -27,6 +27,7 @@ class PageSettingsRepository
 
     public function update($vid, $attributes)
     {
+        $attributes = array_merge($attributes, ['published' => 0]);
         return PageSettings::query()->where('id', $vid)->update($attributes);
     }
 
@@ -46,7 +47,8 @@ class PageSettingsRepository
 
     public function publish($vid)
     {
-        PageSettings::query()->update(['published'=> 0]);
-        return PageSettings::query()->where('id', $vid)->update(['published'=> 1,'publish_time'=>Carbon::now()->format('y-m-d H:i:s')]);
+        $settings = PageSettings::query()->where('id', $vid)->first();
+        PageSettings::query()->where('video_id', $settings->video_id)->update(['published' => 0]);
+        return PageSettings::query()->where('id', $vid)->update(['published' => 1, 'publish_time' => Carbon::now()->format('Y-m-d H:i:s')]);
     }
 }
