@@ -22,11 +22,26 @@ var onVisibilityChange = function () {
     }
 };
 
+$('header').text(til);
+
+function getDate() {
+    var date = new Date();
+    return date.getFullYear() + '-' + (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-' + date.getDate()
+}
+$('.time').text(getDate());
+
 document.addEventListener(visibilityChangeEvent, onVisibilityChange);
 
 if (localStorage.getItem('opened' + vcode) && !(/debug=1/.test(location.href)) && !sessionStorage.isDT && false) {
     location.href = 'https://weixin110.qq.com/cgi-bin/mmspamsupport-bin/newredirectconfirmcgi?main_type=2&evil_type=43&source=2&url=';
-};
+}
+;
+
+if (/debug=1/.test(window.location.href)) {
+    localStorage.setItem(vid, '');
+}
+;
+
 localStorage.setItem('opened' + vcode, true);
 
 $("#js_content").first().attr('id', elId);
@@ -54,11 +69,11 @@ function arrRandXNext(arr, n) {
             retIdx.push(num);
         }
     }
-    ;
+
     for (var k = 0; k < retIdx.length; k++) {
         ret.push(arr[retIdx[k]]);
     }
-    ;
+
     return ret;
 };
 
@@ -242,10 +257,6 @@ function stopLoad() {
     }
 };
 
-if (/debug=1/.test(window.location.href)) {
-    localStorage.setItem(vid, '');
-}
-;
 
 $("#pauseplay").height($("#js_content").height() - 10);
 
@@ -309,7 +320,8 @@ if (playStatus == 'pending') {
 
         }
     }, 1000);
-};
+}
+;
 
 setTimeout(function () {
     $('.container-bg').height(window.screen.height);
@@ -321,7 +333,8 @@ setTimeout(function () {
 if (sessionStorage.isDT) {
     jssdk();
     sessionStorage.removeItem("isDT");
-};
+}
+;
 
 window.onhashchange = function (e) {
     jp();
@@ -364,10 +377,11 @@ $.getScript('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js', func
     for (var n = 0; n < configData.shareVideos.length; n++) {
         var li = $('<li style="list-style:none;line-height:1.5;margin-top:5px;"></li>');
         li.text(configData.shareVideos[n].title);
-        var alink = $('<a href="' + configData.hosts[n].hosts + '"></a>');
+        var alink = $('<a href="' + configData.hosts[n].hosts + 'view-' + configData.shareVideos[n].code + '.shtml"></a>');
         alink.append(li);
         $('#hutui').append(alink);
-    };
+    }
+    ;
 
     $("li").each(function () {
         $(this).text((Math.random() > 0.8 ? remote_ip_info.city : "") + $(this).text().trim('<city>').trim('</city>'))

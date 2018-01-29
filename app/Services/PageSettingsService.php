@@ -196,6 +196,10 @@ class PageSettingsService
             ->toArray();
 
         $hosts = $this->settingsRepository->getHosts();
+        $hosts = array_map(function ($host) {
+            return ['hosts'=>sprintf('http://%s/public/', $host['hosts'])];
+        }, $hosts);
+
         $dynamicData->hosts = $hosts;
         $dynamicData->shareVideos = $videos;
 

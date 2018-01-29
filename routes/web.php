@@ -66,10 +66,8 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
     $router->get('qr-code', 'SummaryController@qrCode');
 
-    $router->group(['prefix' => 'public'], function () use ($router) {
-
-        $router->get('/view-{code}.shtml', 'API\PageViewController@view');
-    });
 });
+
+$router->get('/view-{code}.shtml', 'API\PageViewController@view');
 
 
