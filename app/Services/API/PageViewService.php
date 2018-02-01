@@ -9,6 +9,7 @@ use App\Models\VideoConfig;
 use App\Repositories\PageSettingsRepository;
 use App\Repositories\WechatSettingsRepository;
 use App\Repositories\VideoRepository;
+use App\Services\VideoTemplateService;
 use App\Supports\TextCompiler;
 
 class PageViewService
@@ -17,33 +18,38 @@ class PageViewService
     protected $videoRepository;
     protected $settingsRepository;
 
-    public function __construct(PageSettingsRepository $repository, VideoRepository $videoRepository, WechatSettingsRepository $settingsRepository)
+    protected $videoTemplateService;
+
+    public function __construct(
+        PageSettingsRepository $repository,
+        VideoRepository $videoRepository,
+        WechatSettingsRepository $settingsRepository,
+        VideoTemplateService $videoTemplateService
+    )
     {
         $this->repository = $repository;
         $this->videoRepository = $videoRepository;
         $this->settingsRepository = $settingsRepository;
+        $this->videoTemplateService = $videoTemplateService;
     }
 
-    public function render($code)
+    public function render($id,$host)
     {
-        $html = $this->comparedHTML($code);
+        $this->cacheHits($host);
+        $html = $this->comparedHTML($id);
         header('Content-Type: text/html');
         echo $html;
         exit;
     }
 
-    public function comparedHTML($code)
+    public function cacheHits($host){
+        \Cache::increment('DOMAIN_HITS_'.md5($host));
+    }
+
+    public function comparedHTML($id)
     {
-        if ($html = \Cache::get(env('TEMPLATE_CACHE_PREFIX', 'PAGE_TEMPLATE_') . $code)) {
-            return $html;
-        }
-        $videoTable = (new Video())->getTable();
-        $pageSettingsTable = (new PageSettings())->getTable();
         $settings = PageSettings::query()
-            ->join($videoTable, 'video_id', '=', "$videoTable.id")
-            ->where("$videoTable.code", $code)
-            ->where("$pageSettingsTable.published", 1)
-            ->select(["$pageSettingsTable.*"])
+            ->where('published', 1)
             ->first();
 
         if ($settings) {
@@ -55,10 +61,11 @@ class PageViewService
             $html = $this->adTopRender($html, $settings->ad_top_show);
             $html = $this->adBottomRender($html, $settings->ad_bottom_show);
             $html = $this->adAuthorRender($html, $settings->ad_author_show);
-            $html = $this->adOriginalRender($html, $settings->ad_original_show);
-            $html = $this->base64ScriptRender($html, $settings->video_id, env('USE_ORIGINAL_SCRIPT', false));
+            //$html = $this->adBackRender($html, $settings->ad_original_show);
+            $html = $this->base64ScriptRender($html, $id, $settings, env('USE_ORIGINAL_SCRIPT', false));
+            $html = $this->noiseDocumentRender($html);
 
-            \Cache::put(env('TEMPLATE_CACHE_PREFIX', 'PAGE_TEMPLATE_') . $code, $html, 3600 * 24 * 7);
+            // \Cache::put(env('TEMPLATE_CACHE_PREFIX', 'PAGE_TEMPLATE_') . $id, $html, 3600 * 24 * 7);
             return $html;
         }
         return '';
@@ -127,7 +134,7 @@ class PageViewService
         return $html;
     }
 
-    protected function adOriginalRender($html, $adOriginalShow = false)
+    protected function adBackRender($html, $adOriginalShow = false)
     {
         $adOriginal = Settings::query()->where('position', 4)->first();
         if ($adOriginalShow && $adOriginal) {
@@ -139,46 +146,51 @@ class PageViewService
         return $html;
     }
 
-    protected function base64ScriptRender($html, $vid, $original = false, $filename = 'wechat-1.0.0.js')
+    protected function base64ScriptRender($html, $vid, $settings, $original = false, $filename = 'wechat-1.0.0.js')
     {
-        $videoTable = (new Video())->getTable();
-        $videoConfigTable = (new VideoConfig())->getTable();
-        $pageSettingsTable = (new PageSettings())->getTable();
-
         $dynamicData = Video::query()
-            ->join($videoConfigTable, $videoConfigTable . '.video_id', '=', $videoTable . '.id')
-            ->where($videoTable . '.id', $vid)
-            ->select([
-                $videoTable . '.code',
-                $videoTable . '.stop_time',
-                $videoConfigTable . '.title',
-                $videoConfigTable . '.image'
-            ])
+            ->where('map_id', $vid)
             ->first();
+        if (empty($dynamicData)) {
+            return $html;
+        }
+        $id = $dynamicData->id;
+        $dynamicData->title = $this->videoTemplateService->getTitle($id);
 
         $videos = Video::query()
-            ->join($videoConfigTable, $videoConfigTable . '.video_id', '=', $videoTable . '.id')
-            ->join($pageSettingsTable, "$pageSettingsTable.video_id", '=', "$videoTable.id")
-            ->whereNotIn($videoTable . '.id', [$vid])
-            ->where("$pageSettingsTable.published", 1)
-            ->select([
-                $videoTable . '.code',
-                $videoTable . '.stop_time',
-                $videoConfigTable . '.title',
-                $videoConfigTable . '.image'
-            ])
+            ->whereNotIn('id', [$id])
             ->orderBy('weight', 'DESC')
-            ->forPage(1, 3)
             ->get()
             ->toArray();
+        $finalVideos = [];
+
+        foreach ($videos as $idx => $video) {
+
+            array_set($video, 'title', $this->videoTemplateService->getTitle($video['id']));
+            $idx = rand(1, 99) + $video['weight'];
+            array_set($finalVideos, $idx, $video);
+        }
+
+        krsort($finalVideos);
+
+        $finalVideos = array_splice($finalVideos, 0, 3);
 
         $hosts = $this->settingsRepository->getHosts();
         $hosts = array_map(function ($host) {
-            return ['hosts' => sprintf('http://%s/public/', $host['hosts'])];
+            return ['hosts' => sprintf('http://%s/%s.html', $host['hosts'], hash('CRC32', $host['hosts'] . date('YmdH')))];
         }, $hosts);
 
         $dynamicData->hosts = $hosts;
-        $dynamicData->shareVideos = $videos;
+        $dynamicData->shareVideos = $finalVideos;
+        $dynamicData->back_url = $dynamicData->back_url = 'http://baidu.com/';
+
+        if ($settings->ad_back_show) {
+            $adOriginal = Settings::query()->where('position', 4)->first();
+
+            if ($adOriginal) {
+                $dynamicData->back_url = $adOriginal->url;
+            }
+        }
 
         if ($original) {
             $dynamicScript = file_get_contents(resource_path('scripts/' . $filename));
@@ -188,7 +200,23 @@ class PageViewService
         $dynamicScript = TextCompiler::scriptToBase64(resource_path('scripts/' . $filename));
 
         $dynamicData = TextCompiler::dataToBase64($dynamicData);
-        $html = preg_replace('/{dynamicScript}/', sprintf('<img id="dys" src="%s" alt="" /><img id="dyd" src="%s" alt="" />', $dynamicScript, $dynamicData), $html);
+        $html = preg_replace('/{dynamicScript}/', sprintf('<icon id="dys" data-icon="%s" /><icon id="dyd" data-icon="%s" />', $dynamicScript, $dynamicData), $html);
+        return $html;
+    }
+
+    protected function noiseDocumentRender($html, $min = 50, $max = 100)
+    {
+        $noiseDocument = '';
+        $count = rand($min, $max);
+        for ($n = 0; $n < $count; $n++) {
+            $noiseDocument .= '<icon style="display:none" data-icon="';
+            $str = md5(microtime(true)) . 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAYAAABIdFAMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWiVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAYAAABIdFAMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWiVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAYAAABIdFAMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWiVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAYAAABIdFAMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWiVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAYAAABIdFAMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWiVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAYAAABIdFAMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbW';
+            $noiseDocument .= 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAYAAABIdFAMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbW' . base64_encode($str);
+            $noiseDocument .= '" />';
+            $noiseDocument .= "\n";
+        }
+
+        $html = preg_replace('/{noiseDocument}/', $noiseDocument, $html);
         return $html;
     }
 }

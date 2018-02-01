@@ -19,22 +19,22 @@ class Domain extends BaseModel
 
     protected $table = 'wechat_public_domain_states';
 
-    public static function incHits($pid)
+    public static function incHits($pid, $step = 1)
     {
         $builder = Domain::query()->where('host_id', $pid);
         if (!$builder->exists()) {
             Domain::create([
                 'host_id' => $pid,
-                'hits' => 0
+                'hits' => $step
             ]);
         } else {
             $domain = $builder->first();
-            $domain->hits += 1;
+            $domain->hits += $step;
             $domain->save();
         }
     }
 
-    public static function decHits($pid)
+    public static function decHits($pid, $step = 1)
     {
         $builder = Domain::query()->where('host_id', $pid);
         if (!$builder->exists()) {
@@ -44,7 +44,7 @@ class Domain extends BaseModel
             ]);
         } else {
             $domain = $builder->first();
-            $domain->hits -= 1;
+            $domain->hits -= $step;
             $domain->save();
         }
     }

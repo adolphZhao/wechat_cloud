@@ -24,6 +24,15 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
         $router->put('/{vid:\d+}', 'VideoController@update');
     });
 
+    $router->group(['prefix' => 'video-template', 'middleware' => 'auth'], function () use ($router) {
+        $router->get('/', 'VideoTemplateController@all');
+        $router->get('/{vid:\d+}', 'VideoTemplateController@get');
+        $router->post('/', 'VideoTemplateController@create');
+        $router->delete('/{vid:\d+}', 'VideoTemplateController@delete');
+        $router->put('/{vid:\d+}', 'VideoTemplateController@update');
+    });
+
+
     $router->group(['prefix' => 'settings', 'middleware' => 'auth'], function () use ($router) {
         $router->get('/', 'SettingsController@all');
         $router->get('/{vid:\d+}', 'SettingsController@get');
@@ -68,6 +77,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
 });
 
-$router->get('/view-{code}.shtml', 'API\PageViewController@view');
+$router->get('/rss/view-{hash}-{id:\d+}.htm', 'API\PageViewController@view');
+
 
 

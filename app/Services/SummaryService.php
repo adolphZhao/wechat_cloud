@@ -50,7 +50,7 @@ class SummaryService
         if ($video) {
             foreach ($domains as $idx => $domain) {
                 $d = array_get($domain, 'domain');
-                $host = sprintf('http://%s/public/view-%s.shtml', $d, $video->code);
+                $host = sprintf('http://%s/rss/view-hash-%s.jsp', $d, $video->code);
                 $imgdata = $this->repository->getQrCode($host);
                 array_set($domains, "$idx.imgdata", $imgdata);
                 array_set($domains[$idx], 'url', $host);

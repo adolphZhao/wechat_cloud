@@ -16,10 +16,13 @@ class VideoService
     {
         $video = $this->repository->get($vid);
 
-        if ($video) {
-            $config = $this->repository->getConfig($vid);
-            $video['config'] = $config;
-        }
+        return $video;
+    }
+
+    public function getByMapId($vid)
+    {
+        $video = $this->repository->getByMapId($vid);
+
         return $video;
     }
 
@@ -30,26 +33,19 @@ class VideoService
 
     public function update($vid, $attributes)
     {
-        return \DB::transaction(function () use ($vid, $attributes) {
-            return $this->repository->update($vid, $attributes);
-        });
+
+        return $this->repository->update($vid, $attributes);
     }
 
     public function create($attributes)
     {
-        return \DB::transaction(function () use ($attributes) {
-            return $this->repository->create($attributes);
-        });
+        return $this->repository->create($attributes);
     }
 
     public function all()
     {
         $videos = $this->repository->all();
 
-        foreach ($videos as $idx => $video) {
-            $config = $this->repository->getConfig($video['id']);
-            $videos[$idx]['config'] = $config;
-        }
         return $videos;
     }
 }

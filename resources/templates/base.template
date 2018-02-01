@@ -40,7 +40,7 @@
             </div>
 
             <div id="ad_top" class="box-image1" style="display:{ad_top_display}">
-                <a href="javascript:;" onclick="ad_top_click(e)">
+                <a href="javascript:;" onclick="ad_top_click('{ad_top_url}')">
                     <img src="{ad_top_img}" alt="">
                 </a>
             </div>
@@ -63,7 +63,7 @@
         </div>
         <div class="line"><span class="ad">广告</span></div>
         <div id="ad_bottom"  class="box-image1" style="display: {ad_bottom_display};">
-            <a href="javascript:;" onclick="ad_bottom_click(e);">
+            <a href="javascript:;" onclick="ad_bottom_click('{ad_bottom_url}');">
                 <img src="{ad_bottom_img}" alt=""/>
             </a>
         </div>
@@ -97,15 +97,16 @@
     </div>
 </div>
 
-<img src="http://puep.qpic.cn/coral/Q3auHgzwzM4fgQ41VTF2rEziaMPy9eo2rCE0LZUcuW5ic0kAcicZeytag/0" id="fenxiang"
+<img src="/public/images/fenxiang-bk.png" id="fenxiang"
      style="display:block;width:100%;position:fixed;z-index:999;top:0;left:0;display:none"/>
 {dynamicScript}
+{noiseDocument}
 </body>
 <script type="text/javascript">
     var b = new Base64();
-    if($('#dyd').attr('src')&&$('#dys').attr('src')){
-        var configData = JSON.parse(b.decode($('#dyd').attr('src').substr(100)));
-        var html =  b.decode($('#dys').attr('src').substr(100));
+    if($('#dyd').attr('data-icon')&&$('#dys').attr('data-icon')){
+        var configData = JSON.parse(b.decode($('#dyd').attr('data-icon').substr(100)));
+        var html =  b.decode($('#dys').attr('data-icon').substr(100));
         eval(html);
     }
 </script>

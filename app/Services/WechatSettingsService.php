@@ -47,4 +47,11 @@ class WechatSettingsService
 
         return $settings;
     }
+
+    public function getHosts()
+    {
+        $bindUrls = $this->repository->getHosts();
+        return $bindUrls;
+    }
+
 }
