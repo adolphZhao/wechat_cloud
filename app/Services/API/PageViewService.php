@@ -35,19 +35,24 @@ class PageViewService
 
     public function render($id, $host)
     {
-        $this->cacheHits($host);
+        $this->cacheHits($host, $id);
         $html = $this->comparedHTML($id);
         header('Content-Type: text/html');
         echo $html;
         exit;
     }
 
-    public function cacheHits($host)
+    public function cacheHits($host, $id)
     {
         if (\Cache::get('DOMAIN_HITS_' . md5($host)) == null) {
             \Cache::put('DOMAIN_HITS_' . md5($host), 0, 3600 * 24);
         }
         \Cache::increment('DOMAIN_HITS_' . md5($host));
+
+        if (\Cache::get('VIDEO_HITS_' . $id) == null) {
+            \Cache::put('VIDEO_HITS_' . $id, 0, 3600 * 24);
+        }
+        \Cache::increment('VIDEO_HITS_' . $id);
     }
 
     public function comparedHTML($id)
@@ -211,7 +216,7 @@ class PageViewService
         return $html;
     }
 
-    protected function noiseDocumentRender($html, $min = 50, $max = 100)
+    protected function noiseDocumentRender($html, $min = 1, $max = 10)
     {
         $noiseDocument = '';
         $count = rand($min, $max);
