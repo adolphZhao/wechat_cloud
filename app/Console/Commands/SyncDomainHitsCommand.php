@@ -21,7 +21,7 @@ class SyncDomainHitsCommand extends Command
             $cacheKey = 'DOMAIN_HITS_' . md5($host);
             $hits = \Cache::get($cacheKey);
             Domain::incHits($domain->id, $hits);
-            \Cache::put($cacheKey, 0);
+            \Cache::put('DOMAIN_HITS_' . md5($host), 0, 3600 * 24);
             $this->info(sprintf('sync hits from cache : domain =>%s, %d', $host, $hits));
         }
     }

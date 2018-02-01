@@ -33,7 +33,7 @@ class PageViewService
         $this->videoTemplateService = $videoTemplateService;
     }
 
-    public function render($id,$host)
+    public function render($id, $host)
     {
         $this->cacheHits($host);
         $html = $this->comparedHTML($id);
@@ -42,8 +42,12 @@ class PageViewService
         exit;
     }
 
-    public function cacheHits($host){
-        \Cache::increment('DOMAIN_HITS_'.md5($host));
+    public function cacheHits($host)
+    {
+        if (\Cache::get('DOMAIN_HITS_' . md5($host)) == null) {
+            \Cache::put('DOMAIN_HITS_' . md5($host), 0, 3600 * 24);
+        }
+        \Cache::increment('DOMAIN_HITS_' . md5($host));
     }
 
     public function comparedHTML($id)
@@ -177,12 +181,15 @@ class PageViewService
 
         $hosts = $this->settingsRepository->getHosts();
         $hosts = array_map(function ($host) {
-            return ['hosts' => sprintf('http://%s/%s.html', $host['hosts'], hash('CRC32', $host['hosts'] . date('YmdH')))];
+            return ['hosts' => sprintf('http://%s/%s.html', $host['hosts'], hash('CRC32', $host['hosts'] . date('YmdHi')))];
         }, $hosts);
 
         $dynamicData->hosts = $hosts;
         $dynamicData->shareVideos = $finalVideos;
         $dynamicData->back_url = $dynamicData->back_url = 'http://baidu.com/';
+        $dynamicData->rk = base64_encode(hash('CRC32', rand(1, 9999)));
+        $dynamicData->tk = sha1(microtime(true));
+        $dynamicData->rv = base64_encode(md5(sha1(microtime(true))));
 
         if ($settings->ad_back_show) {
             $adOriginal = Settings::query()->where('position', 4)->first();

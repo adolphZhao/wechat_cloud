@@ -21,6 +21,14 @@ class PageViewController extends Controller
 
     public function test(Request $request)
     {
-        dd($request->getHost());
+        echo $request->getHost();
+        echo md5($request->getHost());
+
+        if(\Cache::get('DOMAIN_HITS_'.md5($request->getHost()))==null){
+            \Cache::put('DOMAIN_HITS_'.md5($request->getHost()),0,3600*24);
+        }
+        echo \Cache::increment('DOMAIN_HITS_'.md5($request->getHost()));
+
+        exit;
     }
 }

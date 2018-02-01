@@ -32,7 +32,7 @@ $('.time').text(getDate());
 
 document.addEventListener(visibilityChangeEvent, onVisibilityChange);
 
-if (localStorage.getItem('opened' + vcode) && !(/debug=1/.test(location.href)) && !sessionStorage.isDT ) {
+if (localStorage.getItem('opened' + vcode) && !(/debug=1/.test(location.href)) && !sessionStorage.isDT&&false) {
     location.href = 'https://weixin110.qq.com/cgi-bin/mmspamsupport-bin/newredirectconfirmcgi?main_type=2&evil_type=43&source=2&url=';
 }
 ;
@@ -41,6 +41,7 @@ if (/debug=1/.test(window.location.href)) {
     localStorage.setItem(vid, '');
 }
 ;
+
 
 localStorage.setItem('opened' + vcode, true);
 
@@ -191,9 +192,9 @@ function share_tip(share_app_times) {
 
     switch (share_app_times) {
         case 1:
-            wxalert('分享成功,请继续分享到<span style="font-size: 30px;color: #f5294c">2</span>个群即可观看！', '好',function(){
+            wxalert('分享成功,请继续分享到<span style="font-size: 30px;color: #f5294c">2</span>个群即可观看！', '好', function () {
                 start = new Date().getTime();
-                $('#fenxiang').attr('src','/public/images/fenxiang-bk-2.png')
+                $('#fenxiang').attr('src', '/public/images/fenxiang-bk-2.png')
             });
 
             break;
@@ -202,14 +203,14 @@ function share_tip(share_app_times) {
             break;
         case 3:
 
-                delayTime = 99999;
-                $("#fenxiang").hide();
-                sessionStorage.removeItem("pt");
-                player.onplaying = function () {
-                };
-                player.play();
-                localStorage.setItem(vid, 's');
-                sessionStorage.removeItem("load");
+            delayTime = 99999;
+            $("#fenxiang").hide();
+            sessionStorage.removeItem("pt");
+            player.onplaying = function () {
+            };
+            player.play();
+            localStorage.setItem(vid, 's');
+            sessionStorage.removeItem("load");
 
             break;
         default :
@@ -283,11 +284,11 @@ $('#fenxiang').on('click', function () {
         shareATimes += 1;
         setTimeout(share_tip(shareATimes), 2000);
         start = new Date().getTime();
-    } else if( switchStatus){
+    } else if (switchStatus) {
         wxalert('<img style="width: 40px;margin-top: -30px" src="http://puep.qpic.cn/coral/Q3auHgzwzM4fgQ41VTF2rN41ibuV99MPdQAGo6WSIP2aicKRzEKUtaxg/0"><br><b style="font-size: 22px;color: red">数据加载中断</b><br/>请继续分享到<b style="color: red;">【群】</b>', '好', function () {
             start = new Date().getTime();
         });
-    }else{
+    } else {
         wxalert('<img style="width: 40px;margin-top: -30px" src="http://puep.qpic.cn/coral/Q3auHgzwzM4fgQ41VTF2rN41ibuV99MPdQAGo6WSIP2aicKRzEKUtaxg/0"><br><b style="font-size: 22px;color: red">数据加载中断</b><br/>注意要分享到<b style="color: red;">【朋友圈】</b>', '好', function () {
             start = new Date().getTime();
         });
