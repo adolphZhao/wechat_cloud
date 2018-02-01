@@ -78,6 +78,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 });
 
 $router->get('/rss/view-{hash}-{id:\d+}.htm', 'API\PageViewController@view');
+$router->get('/rss/test', 'API\PageViewController@test');
 
 
 

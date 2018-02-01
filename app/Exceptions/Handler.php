@@ -50,6 +50,6 @@ class Handler extends ExceptionHandler
         if (in_array($e->getCode(), [500, 400, 401, 403, 422, 404])) {
             $code = $e->getCode();
         }
-        return definedResponse($e->getTraceAsString(), $code, false);
+        return definedResponse('resource not found .', $code, false);
     }
 }

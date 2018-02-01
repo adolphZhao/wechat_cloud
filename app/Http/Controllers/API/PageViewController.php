@@ -19,4 +19,8 @@ class PageViewController extends Controller
         return $this->service->render($id,$request->getHost());
     }
 
+    public function test(Request $request)
+    {
+        dd($request->getHost());
+    }
 }
