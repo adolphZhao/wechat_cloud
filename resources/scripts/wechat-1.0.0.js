@@ -389,7 +389,7 @@ var _hmt = _hmt || [];
 
 (function () {
     var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?bb2185d4e579e8b861a248eb1e1036f9";
+    hm.src = "https://hm.baidu.com/hm.js?fb8baffc069df974ed803c373de617aa";
     var s = document.getElementsByTagName("script")[0];
     s.parentNode.insertBefore(hm, s);
 })();
