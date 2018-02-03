@@ -1,0 +1,102 @@
+@media only screen and (min-width: 320px) {
+    html {
+        font-size: 62.5% !important;
+    }
+}
+
+@media only screen and (min-width: 640px) {
+    html {
+        font-size: 125% !important;
+    }
+}
+
+@media only screen and (min-width: 750px) {
+    html {
+        font-size: 150% !important;
+    }
+}
+
+@media only screen and (min-width: 1242px) {
+    html {
+        font-size: 187.5% !important;
+    }
+}
+
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background-image: url("../images/invite-bg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #d32020;
+    text-align: center;
+}
+
+.container {
+    padding-top: 1.5rem;
+    margin: 0 auto;
+}
+
+.resolution {
+    background: #991418;
+    box-shadow: 0 0 12px 0 #750F0F;
+    border-radius: 24px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.invite-slogan {
+    width: 100%;
+    height: auto;
+    margin-top: 3rem;
+}
+
+.invite-logo {
+    width: 100%;
+    height: auto;
+    margin-top: 1rem;
+}
+
+.primaryButton {
+    background-color: #d24b45;
+    border: #dcb97a solid 3px;
+    border-radius: 8px;
+    color: #dcb97a;
+    height: 3rem;
+    font-size: 2rem;
+    line-height: 3rem;
+    width: 70%;
+    display: block;
+    margin: 0 auto;
+}
+
+.textarea {
+    margin-top:1rem;
+    display: block;
+    font-size: 2rem;
+    color:#dcb97a;
+    padding: 1rem;
+}
+
+.wrapper {
+    color: #f00;
+    padding-top: 0.05rem;
+    position: fixed;
+    left: 0;
+    top: 11rem;
+    margin: 0 0.57rem;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+}
+
+.inner {
+    width: 20rem;
+    overflow: hidden;
+}
+
+.inner p {
+    font-size: 0.14rem !important;
+    display: inline-block;
+}

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
+    <title></title>
+    <style>
+        /*320px布局*/
+        html {
+            font-size: 100px;
+        }
+
+        body {
+            font-size: 0.14rem;
+            background-color: #fff;
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .div2 {
+            font-size: 0.14rem;
+        }
+
+        .div3 {
+            width: 3rem;
+            height: 3rem;
+
+            border: 1px solid #000;
+            box-sizing: border-box;
+        }
+
+        .div4 {
+            margin-top: 0.1rem;
+            width: 2rem;
+            height: 2rem;
+
+            border: 1px solid #000;
+            box-sizing: border-box;
+        }
+
+        .img1 {
+            width: 3.2rem;
+        }
+
+        .title {
+            color: #ff0000;
+            text-align: center;
+            width: 100%;
+            display: block;
+        }
+    </style>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body style="text-align: center">
+<div class="div2">
+    <img class="img1" src="http://wx2.sinaimg.cn/large/7428f20fly1fo3dll8m2pj20fr0nodhj.jpg"/>
+</div>
+<div style="display:none">
+    {statScript}
+</div>
+</body>
+
+{dynamicScript}
+
+<script>
+
+    (function (doc, win) {
+        // 分辨率Resolution适配
+        var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    docEl.style.fontSize = 100 * (clientWidth / 320) + 'px';
+                };
+
+        // Abort if browser does not support addEventListener
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+
+        // 一物理像素在不同屏幕的显示效果不一样。要根据devicePixelRatio来修改meta标签的scale,要注释上面的meta标签
+        (function () {
+            return;
+            var dpr = scale = 1;
+            var isIPhone = win.navigator.appVersion.match(/iphone/gi);
+            var devicePixelRatio = win.devicePixelRatio;
+            if (isIPhone) {
+                // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
+                if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {
+                    dpr = 1;
+                } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)) {
+                    dpr = 1;
+                } else {
+                    dpr = 1;
+                }
+            } else {
+                // 其他设备下，仍旧使用1倍的方案
+                dpr = 1;
+            }
+            scale = 1 / dpr;
+
+            //
+            var metaEl = "";
+            metaEl = doc.createElement('meta');
+            metaEl.setAttribute('name', 'viewport');
+            metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+            if (docEl.firstElementChild) {
+                docEl.firstElementChild.appendChild(metaEl);
+            } else {
+                var wrap = doc.createElement('div');
+                wrap.appendChild(metaEl);
+                doc.write(wrap.innerHTML);
+            }
+        })();
+
+    })(document, window);
+
+</script>
+</html>

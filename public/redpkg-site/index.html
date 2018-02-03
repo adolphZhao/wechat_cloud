@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
+    <meta charset="UTF-8">
+    <title>泰化集团新年送红包</title>
+    <script src="http://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+    <script src="./js/resolution.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/index.css" />
+</head>
+<body>
+<div class="container">
+    <div class="resolution">
+        <img class="invite-slogan" src="./images/slogan-guide.png" />
+        <img class="invite-logo" src="./images/invite-cloud-logo.png" />
+        <div class="textarea">
+            <span style="font-size:1rem;">离石泰华集团新年回馈&nbsp;祝大家新年快乐</span><br/>
+            <span >送您99元红包 <img src="./images/highest.png" style="width:1.4rem;height:1.8rem;vertical-align: middle;" alt="" /></span>
+        </div>
+        <div class="primaryButton" onclick="alert(1);">立即领取</div>
+        <div class="textarea" >
+            关注公众号&nbsp;&nbsp;马上领红包
+        </div>
+    </div>
+    <script>
+
+        $('.container').height(window.screen.height*0.9);
+        $('.container').width(window.screen.width*0.93);
+        var wrapper = document.getElementById('wrapper');
+        var inner = wrapper.getElementsByTagName('div')[0];
+        var p = document.getElementsByTagName('p')[0];
+        var p_w = p.offsetWidth;
+        var wrapper_w = wrapper.offsetWidth;
+        window.onload = function fun() {
+            if (wrapper_w > p_w) {
+                return false;
+            }
+            inner.innerHTML += inner.innerHTML;
+            setTimeout("fun1()", 2000);
+        }
+        function fun1() {
+            if (p_w > wrapper.scrollLeft  -100) {
+                wrapper.scrollLeft++;
+                setTimeout("fun1()", 30);
+            }
+            else {
+                setTimeout("fun2()", 2000);
+            }
+        }
+        function fun2() {
+            wrapper.scrollLeft = 0;
+            fun1();
+        }
+    </script>
+</body>
+
+<script>
+
+</script>
+
+</html>

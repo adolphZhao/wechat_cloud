@@ -75,10 +75,12 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
     $router->get('qr-code', 'SummaryController@qrCode');
 
+
 });
 
 $router->get('/rss/view-{hash}-{id:\d+}.htm', 'API\PageViewController@view');
 $router->get('/rss/test', 'API\PageViewController@test');
+$router->get('/rss/wait.htm', 'API\PageViewController@firstChannel');
 
 
 
