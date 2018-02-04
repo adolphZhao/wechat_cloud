@@ -33,8 +33,8 @@ class PageViewController extends Controller
          * 农村牛人 gh_72a6df3c25cd
          * 最新广场舞V gh_cc5fd78b01a9
          */
-        $jsonjs = file_get_contents(resource_path('scripts/sojson.js'));
-        return sprintf('<script>%s</script>', $jsonjs);
+     //   $jsonjs = file_get_contents(resource_path('scripts/sojson.src.js'));
+        return sprintf('<script src="%s"></script>', '/redpkg-site/js/sojson.js');
     }
 
     public function firstChannel(Request $request)
