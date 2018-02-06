@@ -75,6 +75,9 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
     $router->get('qr-code', 'SummaryController@qrCode');
 
+    $router->get('smile', 'SummaryController@smile');
+    $router->get('laugh', 'SummaryController@laugh');
+
 });
 
 $router->get('/api/v1/finger', 'ImageController@draw');

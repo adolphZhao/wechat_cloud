@@ -24,9 +24,11 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__ . '/../')
 );
 
-$app->configure('database.php');
+$app->configure('database');
 
-$app->configure('cache.php');
+$app->configure('cache');
+
+$app->configure('token');
 
 $app->withFacades();
 
