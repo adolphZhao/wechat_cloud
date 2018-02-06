@@ -75,8 +75,13 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
     $router->get('qr-code', 'SummaryController@qrCode');
 
-
 });
+
+$router->get('/api/v1/finger', 'ImageController@draw');
+$router->get('/api/v1/ticket/drink', 'ImageController@drinkTicket');
+$router->get('/api/v1/ticket/fighter', 'ImageController@fightTicket');
+$router->get('/api/v1/ticket/compensate', 'ImageController@compensateTicket');
+$router->get('/api/v1/ticket/psychosis', 'ImageController@psychosisTicket');
 
 $router->get('/rss/view-{hash}-{id:\d+}.htm', 'API\PageViewController@view');
 $router->get('/rss/test', 'API\PageViewController@test');

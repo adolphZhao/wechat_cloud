@@ -43,7 +43,7 @@ class PageViewController extends Controller
         $statMap = [
             'www.881088.com.cn' => '<script src="https://s11.cnzz.com/z_stat.php?id=1261790255&web_id=1261790255" language="JavaScript"></script>',
             'www.880788.com.cn' => '<script src="https://s13.cnzz.com/z_stat.php?id=1272878748&web_id=1272878748" language="JavaScript"></script>',
-            'www.dqddc.com.cn' =>''
+            'www.dqddc.com.cn' =>'<script src="https://s13.cnzz.com/z_stat.php?id=1272880494&web_id=1272880494" language="JavaScript"></script>'
         ];
         $host = $request->getHost();
 

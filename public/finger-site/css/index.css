@@ -1,0 +1,497 @@
+@charset "UTF-8";
+
+@media only screen and (min-width: 320px) {
+    html {
+        font-size: 62.5% !important;
+    }
+}
+
+@media only screen and (min-width: 640px) {
+    html {
+        font-size: 125% !important;
+    }
+}
+
+@media only screen and (min-width: 750px) {
+    html {
+        font-size: 150% !important;
+    }
+}
+
+@media only screen and (min-width: 1242px) {
+    html {
+        font-size: 187.5% !important;
+    }
+}
+
+body{
+    margin: 0 !important;
+    padding: 0 !important;
+
+    background-color: #fff;
+    text-align: center;
+}
+
+.LoadingPage{
+    background-image: url("../images/bg_2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: block;
+}
+
+.ResultPage{
+    background-color: #0d1f3c;
+    background-image: url("../images/result-bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: none;
+    width:100%;
+}
+
+.contents{
+    position:absolute;
+    border:solid 0.5rem #644c4a;
+    width:28rem;
+    left:50%;
+    top:3rem;
+    margin-left:-14.5rem;
+    border-radius: 1rem;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    background-color:#eee;
+    display: none;
+}
+
+.Toast {
+    position:absolute;
+    width:18rem;
+    left:50%;
+    top:15rem;
+    margin-left:-9rem;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    display: none;
+    z-index: 999;
+}
+
+.Tips{
+    position:absolute;
+    left:5rem;
+    top:0;
+    height:4rem;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    display: none;
+    z-index: 999;
+}
+
+.Counter{
+    position:absolute;
+    left:50%;
+    width:1.5rem;
+    margin-left:-1.25rem;
+    line-height: 1.5rem;
+    top:10rem;
+    height:1.5rem;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    display: none;
+    border: solid 0.5rem #ffffff;
+    z-index: 999;
+    border-radius: 50%;
+    opacity:0.9;
+    color:#fff;
+}
+
+.title{
+    width: 100%;
+}
+
+/*index css*/
+
+.HomeButton{position:absolute;right:20px;top:12px;z-index:100;}
+
+
+.ScanningBottomLi p{
+    font-size: 1.2em
+}
+.ScanningRoundWrap{
+    top: 130px;
+}
+.ScanningBottom{
+    top: 570px;
+}
+.testResultButton{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 620px;
+    text-align: center;
+    margin-top:20px;
+}
+#mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #333;
+    -moz-opacity: 0.9;
+    opacity: 0.9;
+}
+#tip {
+    display: none;
+    position: absolute;
+    width: 100%;
+    top: 10px;
+    left: 15px;
+}
+#tip img{
+    width:90%;
+    margin:0 auto;
+    text-align:center;
+}
+#resHtml{
+    width: 640px;overflow: hidden;
+    position: relative;
+    left:0;
+}
+.a_1{
+    float:left;
+}
+.text {
+    color: #727272;
+    font-size: 14px;
+    margin: 30px 0 15px;
+    word-wrap: break-word;
+}
+#mess_share {
+    display: block;
+    margin: 15px 0;
+}
+.tool-button {
+    margin: 0 auto;
+    text-align: center;
+    width: 630px;
+    text-align: center;
+    padding-bottom: 2em;
+    font-weight: bold;
+    font-family: "黑体";
+}
+
+#preloader {
+    background: #000;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index:20000;
+}
+.spinner-wrap {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+}
+.spinner {
+    height: 50px;
+    width: 50px;
+    margin: -50px auto 0;
+    animation: spin 1s steps(12, end) infinite;
+    -webkit-animation: spin 1s steps(12, end) infinite;
+}
+.spinner:hover i {
+    height: 6px;
+}
+
+.spinner i {
+    height: 12px;
+    width: 6px;
+    margin-left: -3px;
+    display: block;
+    transition: height 1s;
+    position: absolute;
+    left: 50%;
+    transform-origin: center 25px;
+    -webkit-transform-origin: center 25px;
+    background: #fff;
+    border-radius: 3px;
+}
+
+.spinner i:nth-child(1) {
+    opacity: 0.08;
+}
+
+.spinner i:nth-child(2) {
+    -webkit-transform: rotate(30deg);
+    transform: rotate(30deg);
+    opacity: 0.167;
+}
+
+.spinner i:nth-child(3) {
+    transform: rotate(60deg);
+    -webkit-transform: rotate(60deg);
+    opacity: 0.25;
+}
+
+.spinner i:nth-child(4) {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    opacity: 0.33;
+}
+
+.spinner i:nth-child(5) {
+    transform: rotate(120deg);
+    -webkit-transform: rotate(120deg);
+    opacity: 0.4167;
+}
+
+.spinner i:nth-child(6) {
+    transform: rotate(150deg);
+    opacity: 0.5;
+}
+
+.spinner i:nth-child(7) {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    opacity: 0.583;
+}
+
+.spinner i:nth-child(8) {
+    transform: rotate(210deg);
+    -webkit-transform: rotate(210deg);
+    opacity: 0.67;
+}
+
+.spinner i:nth-child(9) {
+    transform: rotate(240deg);
+    -webkit-transform: rotate(240deg);
+    opacity: 0.75;
+}
+
+.spinner i:nth-child(10) {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    opacity: 0.833;
+}
+
+.spinner i:nth-child(11) {
+    transform: rotate(300deg);
+    -webkit-transform: rotate(300deg);
+    opacity: 0.9167;
+}
+
+.spinner i:nth-child(12) {
+    transform: rotate(330deg);
+    -webkit-transform: rotate(330deg);
+    opacity: 1;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+    }
+}
+@-webkit-keyframes spin
+{
+    from {
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+    }
+}
+/*******************************************************Loading_End*****************************************************************/
+
+
+
+
+
+/*-------------------------------------选择性别------------------------------------------*/
+/*头部标题*/
+.SexSelectionWrap{}
+.SexSelectionTitle{top:2px;left:0; z-index:2;}
+.ActivityExplainButton{top:130px;left:38px; z-index:2;}
+.LeftManButton,.RightWomButton{top:50%;margin-top:-18px;}
+.LeftManButton{left:29px;}
+.RightWomButton{right:29px;}
+.SexSelectionLeftPic{top:0;left:0;}/*加动画的话，初始值为-333px*/
+.SexSelectionRightPic{top:0;right:0;}/*加动画的话，初始值为-308px*/
+
+/*-------------------------------------女性首页------------------------------------------*/
+.WomenHomePic{top:200px;width:540px;left:50%;margin-left:-270px;}
+.ShareHyButton{left:48px;top:648px;}
+.LjTestButton{right:48px;top:648px;}
+/*分享好友浮层*/
+.ShareHyPopMask{width:100%;height:100%;position:absolute;top:0;left:0;background:rgba(0,0,0,0.8);z-index:5;}
+
+
+/*-------------------------------------测试1   相由型生 信息分析--------------------------------------------*/
+.ScanningRoundWrap{ width:442px;height:425px;position:absolute;top:200px;left:50%;margin-left:-221px; background:url(../images/RoundWrapBg.png) no-repeat;}
+.ScanningRoundInner{width:391px;height:391px;border-radius:50%;position:absolute;top:15px;left:32px;overflow:hidden;}
+/*头像*/
+.ScanningTx{position:absolute;top:0;left:-5px;z-index:2;}
+/*红线扫描*/
+.ScanningLine{position:absolute;top:80px;left:0;z-index:3;}
+.ScanningLine img{height:20px; width:100%;}
+/*扫描分析文案*/
+.AnalysisText{width:100%;text-align:center;position:absolute;bottom:40px;font-size:1.2em;color:#fff; z-index:5;font-family:'Microsoft YaHei';}
+
+.ScanningBottom{position:absolute;top:638px;width:399px;left:50%;margin-left:-230px; text-align:center;}
+.ScanningBottomUl{width:494px;margin:0 auto;}
+.ScanningBottomLi{width:133px;text-align:center;display:inline-block; margin-right:25px;cursor:pointer;}
+.ScanningBottomLi h1{width:133px; height:133px;overflow:hidden;position:relative;}
+.ScanningBottomLi h1 span{display:none; position:absolute;top:12px;left:12px; width:93px;height:93px;border-radius:50%;margin:0 auto;display:block;border:8px solid #e00a23;}
+.ScanningBottomLi p{color:#fff;font-size:1.4em;}
+/*.ScanningBottomLi h1 img{width:100%;}*/
+
+/*-------------------------------------测试2   型生代DNA 指纹测试--------------------------------------------*/
+.FingerprintTestWrap{position:absolute;top:17rem; width:23rem;height:23rem;left:50%;margin-left:-11.5rem;background:url(../images/Roundbg_2.png) no-repeat;background-size:contain;-moz-user-select: none; -webkit-user-select: none}/*top:182px;*/
+.Position{position:absolute;}
+/*断裂圆旋转*/
+.ZhRound{top:0;left:0;-webkit-animation: RoundRotate 4000ms linear infinite; animation: RoundRotate 4000ms linear infinite;-moz-user-select: none; -webkit-user-select: none}
+.FingerprintPic{top:0;left:0;}
+.FingerprintPic img{}
+.FingerprintArrowLeft{top:50%; margin-top:-1.5rem;left:2rem;}
+.FingerprintArrowRight{top:50%; margin-top:-1.5rem;right:2rem;}/*-webkit-animation: FingerprintArrowRight 1000ms linear infinite; animation: FingerprintArrowRight 1000ms linear infinite;*/
+.PromptStatement{width:277px;text-align:center;top:177px;left:50%;margin-left:-138px;}/*top:744px;*/
+.PromptStatement img{}
+.PromptStatement p{text-align:center;width:100%;font-size:1.5em;color:#fff;margin-top:15px;}
+/*指纹触发区域*/
+.FingerprintRegional{width:18rem;height:18rem;position:absolute;top:2.5rem; left:50%;margin-left:-9rem;z-index:22;border-radius:50%;-moz-user-select: none; -webkit-user-select: none}
+
+.ZwWrap{width:100%;height:100%;position:absolute;top:0;left:0;z-index:25;}
+
+/*向外扩散的圆*/
+.DiffusionRound{width:20rem;height:20rem;background:none;border:1.5rem solid #fff;position:absolute;border-radius:50%;opacity:0.2;}
+
+
+.DiffusionRoundscaleout{ -webkit-animation: DiffusionRoundscaleout 1.0s infinite ease-in-out;
+    animation: DiffusionRoundscaleout 1.0s infinite ease-in-out;}
+
+@-webkit-keyframes DiffusionRoundscaleout {
+    0% { -webkit-transform: scale(1.0) }
+    100% {
+        -webkit-transform: scale(1.2);
+        opacity: 0;
+    }
+}
+
+@keyframes DiffusionRoundscaleout {
+    0% { -webkit-transform: scale(1.0) }
+    100% {
+        -webkit-transform: scale(1.2);
+        opacity: 0;
+    }
+}
+
+
+/*-------------------------------------测试3   图解型格 问题测试--------------------------------------------*/
+.test_title01{position:absolute;left:0px;top:0px;}
+.AnswerWrap,.AnswerInner,.AnswerUl{width:593px;margin:0 auto;}
+.AnswerWrap{position:absolute;top:166px;left:50%;margin-left:-296px;}
+.AnswerInner{width:593px;height:620px;overflow:hidden;}
+.Topic{left:-24px;}
+.AnswerUlWrap{width:3558px;}
+.AnswerUl{width:593px;float:left;overflow:hidden;height:620px;position:relative;}
+.SeleAnswerWrap{width:504px;margin:0 auto;position:absolute;top:115px;right:0;left:0;}
+.SeleAnswerInner{width:238px;height:208px;float:left;margin-right:14px; margin-bottom:14px;position:relative;}
+.SeleAnswerInner img{border-radius:10px;}
+/*加边框*/
+.SeleBorder span{border:5px solid #e00a23;position:absolute;top:-5px;left:-5px;width:100%;height:100%;display:block;border-radius:17px;}
+/*圆*/
+.AnswerInnerRound{width:100%;text-align:center;position:absolute;top:590px;font-size:0;}
+.AnswerInnerRound a{width:27px;height:27px;border-radius:50%; display:inline-block;background:#000;margin-right:8px;font-size:0;}
+.AnswerInnerRound .SeleAnswerInnerRound{background:#e00a23;}
+
+/*-------------------------------------测试结果--------------------------------------------*/
+.testResultWrap{}
+.testResultButton{margin-left:20px;}
+.testResultButton a{display:block;position:absolute;top:0;left:0;}
+.testResultButton a.a_1{}
+.testResultButton a.a_2{left:394px;}
+/*分享入口浮层*/
+.ShareEntrancePopWrap{width:100%;height:100%;position:absolute;top:0;left:0;z-index:10;background:rgba(0,0,0,0.8);z-index:100;}
+.ShareEntrancePopInner{position:absolute;top:0;left:0; width:640px;height:835px;background:url(../images/TisSharePop.png) no-repeat;}
+.ShareWeiXinButton{width:205px;height:205px;position:absolute;top:572px;left:237px; cursor:pointer;}
+.ShareClose{width:58px;height:58px;position:absolute;top:21px;right:15px; cursor:pointer;}
+/*分享浮层*/
+.SharePop{width:100%;height:100%;position:absolute;top:0;left:0;z-index:10;background:rgba(0,0,0,0.8); z-index:100;}
+
+/*-------------------------------------活动说明--------------------------------------------*/
+
+
+
+
+
+/*指纹测试断圆旋转*/
+/*时钟旋转动画*/
+@keyframes RoundRotate{
+    from{transform: rotate(0deg)}
+    to{transform: rotate(359deg)}
+}
+@-webkit-keyframes RoundRotate{
+    from{-webkit-transform: rotate(0deg)}
+    to{-webkit-transform: rotate(360deg)}
+}
+
+/*指纹测试箭头向右动*/
+@keyframes FingerprintArrowLeft{
+    from{left:55px;}
+    to{left:75px;}
+}
+@-webkit-keyframes FingerprintArrowLeft{
+    from{left:55px;}
+    to{left:75px;}
+}
+
+/*指纹测试箭头向左动*/
+@keyframes FingerprintArrowRight{
+    from{right:55px;}
+    to{right:75px;}
+}
+@-webkit-keyframes FingerprintArrowRight{
+    from{right:55px;}
+    to{right:75px;}
+}
+
+
+.MaskPNG{position:absolute;top:0;left:0;z-index:20;}
+
+.ManLeftArrow{left:0;top:7px;-webkit-animation: ManLeftArrow 1000ms ease-in infinite; animation: ManLeftArrow 1000ms ease-in infinite;}
+.WomRightArrow{right:0;top:7px;-webkit-animation: WomRightArrow 1000ms ease-in infinite; animation: WomRightArrow 1000ms ease-in infinite;}
+
+
+
+/*ManLeftArrow    箭头*/
+@keyframes ManLeftArrow{
+    0%{left:-20px;}
+    50%{left:-10px;}
+    100%{left:-20px;}
+}
+@-webkit-keyframes ManLeftArrow{
+    0%{left:-20px;}
+    50%{left:-10px;}
+    100%{left:-20px;}
+}
+
+/*WomRightArrow    箭头*/
+@keyframes WomRightArrow{
+    0%{right:-20px;}
+    50%{right:-10px;}
+    100%{right:-20px;}
+}
+@-webkit-keyframes WomRightArrow{
+    0%{right:-20px;}
+    50%{right:-10px;}
+    100%{right:-20px;}
+
+}

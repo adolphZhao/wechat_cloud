@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
+    <title>我的宝宝未来成就不可限量...</title>
+    <link rel="stylesheet" type="text/css" href="./css/index.css"/>
+    <script src="http://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+    <script>
+
+        $(function () {
+            var _Interval = 0;
+            var _step = 1;
+            $(".jscFingerprintRegional").on("mousedown touchstart", function (e) {
+                var ev = e.touches ? e.touches[0] : e;
+                $(".jscTestText").html("等待扫描");
+                $(".DiffusionRound").addClass("DiffusionRoundscaleout");
+                $(".jscRotateRound").addClass("ZhRound");
+                $('.jsCounter').show();
+                _IsStop = true;
+                $(".jscFingerprintArrowLeft").stop(true, true).animate({left: "2rem"}, 300);
+                $(".jscFingerprintArrowRight").stop(true, true).animate({right: "2rem"}, 300);
+                _Interval = window.setInterval(function () {
+                    $('.jsCounter').text((3 - _step) > 0 ? (3 - _step) : 0);
+                    _step++;
+                    if (_step > 1) {
+                        $(".jscFingerprint img").show();
+                        $(".jscTestText").html("扫描成功！");
+                        $(".jscTestTipImg").eq(0).hide().siblings().show();
+
+//                        window.setTimeout(function () {
+//
+//                            $(".LoadingPage").hide();
+//                            $(".ResultPage").show();
+//                            $(".jsResult").show();
+//                            $(".contents").show();
+//                            $('.jsToast').show();
+//                        }, 1500);
+//
+//                        setTimeout(function(){
+//                            $('.jsToast').hide();
+//                        },1500);
+                    }
+                }, 1000);
+
+                ev.preventDefault();
+
+            });
+            $(".jscFingerprintRegional").on("mouseup touchend", function () {
+                $(".DiffusionRound").removeClass("DiffusionRoundscaleout");
+                $(".jscRotateRound").removeClass("ZhRound");
+                $('.jsCounter').hide();
+                if (_step > 1) {
+                    window.setTimeout(function () {
+                        //页面跳转
+                        $(".LoadingPage").hide();
+                        $(".ResultPage").show();
+                        $(".contents").show();
+                        $(".jsResult").show();
+                        $('.jsToast').show();
+                        $('.jsTips').show();
+
+                        setTimeout(function () {
+                            $('.jsToast').hide();
+                        }, 2500);
+                    }, 1000);
+
+
+                    clearInterval(_Interval);
+                }
+                else {//不超过四秒
+                    window.clearInterval(_Interval);
+                    _step = 0;
+                    _IsStop = false;
+                    ArrowAnimate();
+                    $('.jsCounter').hide();
+                    $(".jscTestTipImg").eq(1).hide().siblings().show();
+                    $(".jscTestText").html("扫描失败！请继续扫描...");
+                }
+            });
+            var _IsStop = false;
+
+            function ArrowAnimate() {
+                if (_IsStop) {
+                    return;
+                }
+                $(".jscFingerprintArrowLeft").stop(true, false).animate({left: "3rem"}, 500, function () {
+                    $(this).stop(true, false).animate({left: "2rem"}, 500, function () {
+                    })
+                })
+                $(".jscFingerprintArrowRight").stop(true, false).animate({right: "3rem"}, 500, function () {
+                    $(this).stop(true, false).animate({right: "2rem"}, 500, function () {
+                        ArrowAnimate();
+                    })
+                })
+            }
+
+            ArrowAnimate();
+        });
+    </script>
+</head>
+<body>
+<div class="LoadingPage">
+    <div>
+        <img class="title" src="images/title.png"/>
+    </div>
+    <div class="FingerprintTestWrap">
+    <span style="outline: none; -webkit-tap-highlight-color: rgba(0,0,0,0); -moz-user-select: none; -webkit-user-select: none; "
+          class="FingerprintRegional jscFingerprintRegional">
+    </span>
+        <!--需要转的断圆-->
+        <div class="Position jscRotateRound">
+            <img style="widht:23rem;height:23rem;" src="images/ZhRound2.png"></div>
+        <!--指纹-->
+        <div class="Position FingerprintPic jscFingerprint">
+            <img style="display:none;widht:23rem;height:23rem;" src="images/FingerprintPic.png">
+        </div>
+        <!--箭头左-->
+        <div class="Position FingerprintArrowLeft jscFingerprintArrowLeft">
+            <img style="width:3rem;" src="images/FingerprintArrowLeft.png">
+        </div>
+        <!--箭头右-->
+        <div class="Position FingerprintArrowRight jscFingerprintArrowRight">
+            <img style="width:3rem;" src="images/FingerprintArrowRight.png">
+        </div>
+
+        <!--外围向外扩散的圆-->
+        <div class="DiffusionRound">
+
+        </div>
+    </div>
+</div>
+<div class="ResultPage" style="display:none;">
+    <div class="contents" style="display:none;">
+        <img class="jsResult" style="width:28rem;height:auto;display:none;" src="/api/v1/finger"/>
+    </div>
+</div>
+<div><img class="Toast jsToast" src="./images/click.png"/>
+    <img class="Tips jsTips" src="./images/tips.png"/>
+</div>
+<div class="Counter jsCounter">3</div>
+<div style="display: none">
+    <script src="https://s13.cnzz.com/z_stat.php?id=1272880494&web_id=1272880494" language="JavaScript"></script>
+</div>
+</body>
+<script type="text/javascript">
+
+    $('.LoadingPage').height(window.screen.height);
+
+    $('.ResultPage').height(window.screen.height);
+
+
+    //
+    //    function showRes(){
+    //        var ss = $("#infos").attr("stype");
+    //        if(ss==1){
+    //            if(isCount==1){clickCount(2972369);}
+    //            $("#infos").removeAttr("stype");
+    //            $("#infos").attr("stype", "2");
+    //            var number = Math.floor(1+Math.random()*(14-1));
+    //            $("#resPic").removeAttr("src");
+    //            // $("#resPic").attr("src", _config['isSite']+"vapp/2972369/"+number+".jpg");
+    //            $("#resPic").attr("src", "vapp/2972369/"+number+".jpg");
+    //            $(".main_wrap").hide();
+    //            $("#resHtml").show();
+    //            $("#infos").removeAttr("num");
+    //            $("#infos").attr("num", number);
+    //            var note = "";
+    //            if(number==1){
+    //                note = "原来我适合开劳 斯莱斯幻影呀";
+    //            }else if(number==2){
+    //                note = "原来我适合开Jeep的大切诺基啊";
+    //            }else if(number==3){
+    //                note = "原来我适合开路虎";
+    //            }else if(number==4){
+    //                note = "原来我适合开保时捷";
+    //            }else if(number==5){
+    //                note = "原来我适合开奥迪Q7呀";
+    //            }else if(number==6){
+    //                note = "原来我适合开保时捷911呀";
+    //            }else if(number==7){
+    //                note = "原来我适合开凯迪拉克";
+    //            }else if(number==8){
+    //                note = "原来我适合开宝马 x6呀";
+    //            }else if(number==9){
+    //                note = "原来我适合开奔驰呀";
+    //            }else if(number==10){
+    //                note = "原来我适合开宾利呀";
+    //            }else if(number==11){
+    //                note = "原来我适合开捷豹呀";
+    //            }else if(number==12){
+    //                note = "原来我适合开兰博基尼呀";
+    //            }else if(number==13){
+    //                note = "原来我适合开大众的辉腾";
+    //            }else{
+    //                note = "原来我适合开法拉利";
+    //            }
+    //            $("#res1").html("经鉴定："+note+"，");
+    //            $("#infos").html("哇！"+note+"，");
+    //
+    //            //配置数据
+    //            desc = "测试你适合开什么车";
+    //            qikeContentPreSet.shareContent.desc = $("#infos").text() + desc;
+    //            return false;
+    //        }
+    //    }
+    //    $(".a_2").click(function(){
+    //        location.href = location.href;
+    //    });
+    //    $("#share-button").click(function(){
+    //
+    //        if(!!qike){
+    //
+    //            //配置数据
+    //            desc = "测试你适合开什么车";
+    //            qikeContentPreSet.shareContent.desc = $("#infos").text() + desc;
+    //            $("#share").show();
+    //
+    //        }else{
+    //
+    //            $("#share").show();
+    //
+    //        }
+    //
+    //    });
+    //
+    //    $("#share").click(function(){
+    //        $(this).hide();
+    //    });
+
+</script>
+</html>

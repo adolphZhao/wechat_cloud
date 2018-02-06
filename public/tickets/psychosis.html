@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css">
+    <script src="http://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/export.css">
+    <title>精神病搞笑诊断单</title>
+</head>
+<body ontouchstart>
+<div class="laodPage">
+    <div class="titleArea  jsTitleArea">
+        <img style="width:100%;" src="images/psychosis-title.gif"/>
+    </div>
+    <div>
+        <div style="display: table;width:100%">
+            <ul style="display: table-row">
+                <li style="font-size:2rem;display: table-cell;padding-left:1rem;">姓名</li>
+                <li style="padding-left:2rem;display: table-cell">
+                    <input id="name" class="weui-input" style="font-size:1.5rem;" type="text" placeholder="请输入姓名"/>
+                </li>
+            </ul>
+            <ul style="display: table-row">
+                <li style="font-size:2rem;display: table-cell;padding-left:1rem;">年龄</li>
+                <li style="padding-left:2rem;display: table-cell">
+                    <input id="age" class="weui-input" style="font-size:1.5rem;" type="text" value="18"/>
+                </li>
+            </ul>
+            <ul style="display: table-row">
+                <li style="font-size:2rem;display: table-cell;padding-left:1rem;">性别</li>
+                <li style="padding-left:2rem;display: table-cell;text-align: left;">
+                    <div class="weui-cells weui-cells_radio" >
+                        <label class="weui-cell weui-check__label" for="male" >
+                            <div class="weui-cell__bd" >
+                                <p>男</p>
+                            </div>
+                            <div class="weui-cell__ft" >
+                                <input type="radio" class="weui-check" name="radio1" id="male" checked="checked">
+                                <span class="weui-icon-checked"></span>
+                            </div>
+                        </label>
+                        <label class="weui-cell weui-check__label" for="female">
+
+                            <div class="weui-cell__bd">
+                                <p>女</p>
+                            </div>
+                            <div class="weui-cell__ft">
+                                <input type="radio" name="radio1" class="weui-check" id="female" >
+                                <span class="weui-icon-checked"></span>
+                            </div>
+                        </label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="page input js_show">
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <a href="javascript:;" class="weui-btn weui-btn_primary js-setup-flag">提交</a>
+                    </div>
+                </div>
+                <div class="weui-cells__title">&nbsp;</div>
+                <div class="weui-cells" style="text-align: left;">
+                    <a class="weui-cell weui-cell_access" href="./export.html">
+                        <div class="weui-cell__bd">
+                            <p>退出酒场通知书</p>
+                        </div>
+                        <div class="weui-cell__ft">
+                        </div>
+                    </a>
+                    <a class="weui-cell weui-cell_access" href="./compensate.html">
+                        <div class="weui-cell__bd">
+                            <p>拆迁搞笑补偿单</p>
+                        </div>
+                        <div class="weui-cell__ft">
+                        </div>
+                    </a>
+                    <a class="weui-cell weui-cell_access" href="./loser.html">
+                        <div class="weui-cell__bd">
+                            <p>喝酒认怂单</p>
+                        </div>
+                        <div class="weui-cell__ft">
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="landPage">
+    <img style="width:10rem;position: absolute;margin-left:10rem;" src="./images/tips.png"/>
+    <img id="drinkTicket" style="width:90%;height:auto;" alt="搞笑诊断单生成中..."/>
+    <div class="page input js_show">
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <a href="javascript:;" class="weui-btn weui-btn_primary js-reset-flag">再来一张</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="toast" style="display: none;">
+    <div class="weui-mask_transparent"></div>
+    <div class="weui-toast" style="width:15rem;left:50%;margin-left:-7.5rem">
+        <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+        <p class="weui-toast__content">长按图片可以保存到手机</p>
+    </div>
+</div>
+</body>
+<script>
+
+    $('.js-setup-flag').click(function () {
+        $('.laodPage').hide();
+        $('.landPage').show();
+        var sex = $('#female').prop("checked") ? '女' : '男';
+
+        $('#drinkTicket').attr('src', '/api/v1/ticket/psychosis?name=' + $('#name').val() + '&age=' + $('#age').val() + '&sex=' + sex).load();
+
+        $('#toast').fadeIn(100);
+        setTimeout(function () {
+            $('#toast').fadeOut(100);
+        }, 2000);
+    });
+
+    $('.js-reset-flag').click(function () {
+        $('.laodPage').show();
+        $('.landPage').hide();
+        $('#drinkTicket').attr('src', '');
+    });
+</script>
+</html>
