@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use App\Models\Video;
 use App\Models\VideoConfig;
+use App\Models\VideoTemplate;
 
 /**
  * Created by PhpStorm.
@@ -26,12 +27,17 @@ class VideoRepository
 
     public function delete($vid)
     {
+        VideoTemplate::query()->where('video_id', $vid)->delete();
         VideoConfig::query()->where('video_id', $vid)->delete();
         return Video::query()->where('id', $vid)->delete();
     }
 
     public function update($vid, $attributes)
     {
+        VideoTemplate::query()->where('video_id', $vid)->update([
+            'video_code' => array_get($attributes, 'code'),
+            'template' => array_get($attributes, 'template'),
+        ]);
         return Video::query()->where('id', $vid)->update($attributes);
     }
 
@@ -64,6 +70,11 @@ class VideoRepository
     public function create($attributes)
     {
         $video = Video::create($attributes);
+        VideoTemplate::create([
+            'video_id' => $video->id,
+            'video_code' => $video->code,
+            'template' => $video->template,
+        ]);
 
         return $video;
     }

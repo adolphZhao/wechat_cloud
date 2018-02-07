@@ -388,7 +388,8 @@ $.getScript('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js', func
     for (var n = 0; n < configData.shareVideos.length; n++) {
         var li = $('<li style="list-style:none;line-height:1.5;margin-top:5px;"></li>');
         li.text(configData.shareVideos[n].title);
-        var alink = $('<a href="' + configData.hosts[n].hosts + '?vid=' + configData.shareVideos[n].map_id + '"></a>');
+        $idx = Math.ceil(Math.random()*configData.hosts.length-1);
+        var alink = $('<a href="' + configData.hosts[$idx].hosts + '?vid=' + configData.shareVideos[n].map_id + '"></a>');
         alink.append(li);
         $('#hutui').append(alink);
     }
@@ -398,52 +399,52 @@ $.getScript('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js', func
         $(this).text((Math.random() > 0.8 ? remote_ip_info.city : "") + $(this).text().trim('<city>').trim('</city>'))
     });
 
-    var emojis = ['1f4a2', '1f4a3', '1f4a4', '1f4a5', '1f4a6', '1f4aa', '1f4ab'];
-    var header = $('header').text();
-    var ri = Math.floor(Math.random() * header.length);
-    ri = (ri < 3 ? (ri + 3) : ri);
-    var ei = Math.floor(Math.random() * 7);
-    var title = [];
-    for (var n in header) {
-        title.push(header[n]);
-        if (n == ri) {
-            title.push('<span class="emoji emoji' + emojis[ei] + '"></span>');
-        }
-    }
+    //var emojis = ['1f4a2', '1f4a3', '1f4a4', '1f4a5', '1f4a6', '1f4aa', '1f4ab'];
+    //var header = $('header').text();
+    // var ri = Math.floor(Math.random() * header.length);
+    // ri = (ri < 3 ? (ri + 3) : ri);
+    // var ei = Math.floor(Math.random() * 7);
+    // var title = [];
+    // for (var n in header) {
+    //     title.push(header[n]);
+    //     if (n == ri) {
+    //         title.push('<span class="emoji emoji' + emojis[ei] + '"></span>');
+    //     }
+    // }
 
-    $('header').html(title.join(''));
+   // $('header').html(title.join(''));
 
-    var shareTitle = til;
+    //var shareTitle = til;
 
-    var emojis = $('#emojisPool').text().split(',');
-    var ri = Math.floor(Math.random() * shareTitle.length);
-    ri = (ri < 3 ? (ri + 3) : ri);
-    var ei = Math.floor(Math.random() * emojis.length);
+    // var emojis = $('#emojisPool').text().split(',');
+    // var ri = Math.floor(Math.random() * shareTitle.length);
+    // ri = (ri < 3 ? (ri + 3) : ri);
+    // var ei = Math.floor(Math.random() * emojis.length);
+    //
+    // var ri1 = 2;
+    // var ei1 = 2;
+    // var rc = 3;
+    // while (rc--) {
+    //     ri1 = Math.floor(Math.random() * shareTitle.length);
+    //     ri1 = (ri1 < 3 ? (ri1 + 3) : ri1);
+    //     ei1 = Math.floor(Math.random() * emojis.length);
+    //     if (ri1 != ri) {
+    //         break;
+    //     }
+    // }
 
-    var ri1 = 2;
-    var ei1 = 2;
-    var rc = 3;
-    while (rc--) {
-        ri1 = Math.floor(Math.random() * shareTitle.length);
-        ri1 = (ri1 < 3 ? (ri1 + 3) : ri1);
-        ei1 = Math.floor(Math.random() * emojis.length);
-        if (ri1 != ri) {
-            break;
-        }
-    }
+    // var title = [];
+    // for (var n in shareTitle) {
+    //     title.push(shareTitle[n]);
+    //     if (n == ri) {
+    //         title.push(emojis[ei]);
+    //     }
+    //     if (n == ri1) {
+    //         title.push(emojis[ei1]);
+    //     }
+    // }
 
-    var title = [];
-    for (var n in shareTitle) {
-        title.push(shareTitle[n]);
-        if (n == ri) {
-            title.push(emojis[ei]);
-        }
-        if (n == ri1) {
-            title.push(emojis[ei1]);
-        }
-    }
-
-    document.title = title.join('');
+    document.title = til;
 
     $("li").each(function () {
         var text = $(this).text();

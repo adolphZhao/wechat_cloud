@@ -20,7 +20,11 @@ class WechatSettingsRepository
 
     public function getHosts()
     {
-        $bindUrls = WechatBindUrl::query()->get()->toArray();
+        $bindUrls = WechatBindUrl::query()
+            ->join('wechat_public_domain_states','wechat_public_config_hosts.id','wechat_public_domain_states.host_id')
+            ->where('wechat_public_domain_states.status',0)
+            ->get()
+            ->toArray();
         return $bindUrls;
     }
 

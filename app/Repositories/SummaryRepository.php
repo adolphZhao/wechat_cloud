@@ -22,6 +22,9 @@ class SummaryRepository
 
     public function delete($id)
     {
+        $domain = Domain::query()->where('id', $id)->first();
+        $hostId = $domain->host_id;
+        WechatBindUrl::query()->where('id', $hostId)->delete();
         return Domain::query()->where('id', $id)->delete();
     }
 

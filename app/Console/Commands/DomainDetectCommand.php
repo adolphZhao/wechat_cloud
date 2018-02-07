@@ -34,13 +34,13 @@ class DomainDetectCommand extends Command
             $this->info('检测Domain => ' . $domain->hosts . "\n");
 
             $status = $this->detectDomainStatus($domain->hosts);
-
+echo $domain->hosts;
             if ($status->status == 0 || $status->status == 3) {
                 $this->info($status->errmsg . '  =>  ' . $domain->hosts . "\n");
                 $this->flagDomainFromPool($domain, 0);
             } else {
-                $this->warn($status->errmsg . '  =>  ' . $domain['host'] . '.' . $status->status . "\n");
-                $this->flagDomainFromPool($domain['host'], 1);
+                $this->warn($status->errmsg . '  =>  ' . $domain->hosts . '.' . $status->status . "\n");
+                $this->flagDomainFromPool($domain, 1);
             }
             sleep(3);
         }
@@ -56,6 +56,7 @@ class DomainDetectCommand extends Command
 
     function flagDomainFromPool($domain, $status)
     {
+
         if ($status) {
             Domain::incState($domain->id);
         } else {

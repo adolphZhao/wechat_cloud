@@ -17,6 +17,29 @@ class PageViewController extends Controller
 
     public function view(Request $request, $id)
     {
+        if ($request->getHost() == 'localhost') {
+            $host = 'cdn.greenlowcarbon.com.cn';
+        } else {
+            $host = $request->getHost();
+        }
+
+        $guideSettings = \DB::selectOne(sprintf("select a.* from wechat_public_domain_states a join wechat_public_config_hosts b on a.host_id=b.id where b.hosts='%s'", $host));
+
+        if ($guideSettings && $guideSettings->guide && !preg_match('/redirect=1/', $request->getQueryString())) {
+
+            $x = rand(0, 1000);
+
+            if ($x < $guideSettings->percent) {
+                $rk = base64_encode(hash('CRC32', rand(1, 9999)));
+                $tk = sha1(microtime(true));
+                $rv = base64_encode(md5(sha1(microtime(true))));
+                $time = date('YmdHis');
+                $hash = base64_encode($time);
+
+                header('Location: http://' . $guideSettings->guide . $request->getPathInfo() . "?ob=$hash&r=$time&token=$tk&$rk=$rv&redirect=1");
+                exit;
+            }
+        }
         return $this->service->render($id, $request->getHost());
     }
 
@@ -33,7 +56,7 @@ class PageViewController extends Controller
          * 农村牛人 gh_72a6df3c25cd
          * 最新广场舞V gh_cc5fd78b01a9
          */
-     //   $jsonjs = file_get_contents(resource_path('scripts/sojson.src.js'));
+        //   $jsonjs = file_get_contents(resource_path('scripts/sojson.src.js'));
         return sprintf('<script src="%s"></script>', '/redpkg-site/js/sojson.js');
     }
 
@@ -43,7 +66,7 @@ class PageViewController extends Controller
         $statMap = [
             'www.881088.com.cn' => '<script src="https://s11.cnzz.com/z_stat.php?id=1261790255&web_id=1261790255" language="JavaScript"></script>',
             'www.880788.com.cn' => '<script src="https://s13.cnzz.com/z_stat.php?id=1272878748&web_id=1272878748" language="JavaScript"></script>',
-            'www.dqddc.com.cn' =>'<script src="https://s13.cnzz.com/z_stat.php?id=1272880494&web_id=1272880494" language="JavaScript"></script>'
+            'www.dqddc.com.cn' => '<script src="https://s13.cnzz.com/z_stat.php?id=1272880494&web_id=1272880494" language="JavaScript"></script>'
         ];
         $host = $request->getHost();
 
@@ -60,7 +83,7 @@ class PageViewController extends Controller
         }
 
 
-        $template = preg_replace('/{statScript}/', array_get($statMap,$host,''), $template);
+        $template = preg_replace('/{statScript}/', array_get($statMap, $host, ''), $template);
 
 
         $template = preg_replace('/{dynamicScript}/', (env('INDJ_JS', false) && $switchOn) ? $this->getJsonjs() : '', $template);
