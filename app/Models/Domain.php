@@ -14,7 +14,11 @@ class Domain extends BaseModel
     protected $fillable = [
         'host_id',
         'status',
-        'hits'
+        'hits',
+        'guide',
+        'percent',
+        'ip_address',
+        'deleted',
     ];
 
     protected $table = 'wechat_public_domain_states';

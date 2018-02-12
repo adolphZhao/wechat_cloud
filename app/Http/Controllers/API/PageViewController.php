@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\WechatBindUrl;
 use App\Services\API\PageViewService;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
@@ -15,30 +16,36 @@ class PageViewController extends Controller
         $this->service = $service;
     }
 
-    public function view(Request $request, $id)
+    public function view(Request $request, $hash, $id)
     {
-        if ($request->getHost() == 'localhost') {
-            $host = 'cdn.greenlowcarbon.com.cn';
-        } else {
-            $host = $request->getHost();
-        }
+        $guideSettings = \DB::selectOne("select a.host_id,a.hits,b.hosts as domain from wechat_public_domain_states a join wechat_public_config_hosts b on a.host_id=b.id where a.status=0 order by a.hits asc");
+        $time = date('YmdHis');
 
-        $guideSettings = \DB::selectOne(sprintf("select a.* from wechat_public_domain_states a join wechat_public_config_hosts b on a.host_id=b.id where b.hosts='%s'", $host));
+        if ($guideSettings && $guideSettings->domain && !preg_match('/redirect=1/', $request->getQueryString()) || (intval($time) - intval($request->get('r', 0))) > 30) {
 
-        if ($guideSettings && $guideSettings->guide && !preg_match('/redirect=1/', $request->getQueryString())) {
+            $rk = hash('CRC32', rand(1, 9999));
+            $tk = sha1(microtime(true));
+            $rv = base64_encode(md5(sha1(microtime(true))));
 
-            $x = rand(0, 1000);
+            $thash = base64_encode($time);
 
-            if ($x < $guideSettings->percent) {
-                $rk = base64_encode(hash('CRC32', rand(1, 9999)));
-                $tk = sha1(microtime(true));
-                $rv = base64_encode(md5(sha1(microtime(true))));
-                $time = date('YmdHis');
-                $hash = base64_encode($time);
+            $jumpHtml = <<<EOF
+<html>
+    <head>
+    <meta name="referrer" content="never">
+    <meta http-equiv="refresh" content="0;url=%s">
+    </style>
+    </head>
+    <body></body>
+</html>
+EOF;
+            $pathInfo = preg_replace("/$hash/", $rk, $request->getPathInfo());
 
-                header('Location: http://' . $guideSettings->guide . $request->getPathInfo() . "?ob=$hash&r=$time&token=$tk&$rk=$rv&redirect=1");
-                exit;
-            }
+            $jumpHtml = sprintf($jumpHtml, 'http://' . $guideSettings->domain . $pathInfo . "?ob=$thash&r=$time&token=$tk&$rk=$rv&redirect=1");
+
+            echo $jumpHtml;
+            exit;
+
         }
         return $this->service->render($id, $request->getHost());
     }

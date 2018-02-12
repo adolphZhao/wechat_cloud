@@ -21,8 +21,8 @@ class WechatSettingsRepository
     public function getHosts()
     {
         $bindUrls = WechatBindUrl::query()
-            ->join('wechat_public_domain_states','wechat_public_config_hosts.id','wechat_public_domain_states.host_id')
-            ->where('wechat_public_domain_states.status',0)
+            ->join('wechat_public_domain_states', 'wechat_public_config_hosts.id', 'wechat_public_domain_states.host_id')
+            ->where('wechat_public_domain_states.status', 0)
             ->get()
             ->toArray();
         return $bindUrls;
@@ -36,8 +36,8 @@ class WechatSettingsRepository
 
     public function update($pid, $attributes)
     {
-        WechatBindUrl::query()->where('public_id', $pid)->delete();
-        WechatBindUrl::query()->insert($this->fetchSettings($attributes, $pid));
+//        WechatBindUrl::query()->where('public_id', $pid)->delete();
+//        WechatBindUrl::query()->insert($this->fetchSettings($attributes, $pid));
         unset($attributes['bind_url']);
         return WechatSettings::query()->where('id', $pid)->update($attributes);
     }
@@ -46,9 +46,21 @@ class WechatSettingsRepository
     {
         $settings = WechatSettings::create($attributes);
 
-        WechatBindUrl::query()->insert($this->fetchSettings($attributes, $settings->id));
+        //  WechatBindUrl::query()->insert($this->fetchSettings($attributes, $settings->id));
 
         return $settings;
+    }
+
+    public function bindUrl($hosts, $pid)
+    {
+        $inserted = [];
+        foreach ($hosts as $host) {
+            $inserted[] = [
+                'hosts' => $host,
+                'public_id' => $pid
+            ];
+        }
+        WechatBindUrl::query()->insert($inserted);
     }
 
     public function all()

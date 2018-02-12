@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Console\Commands\CreateUserCommand;
 use App\Console\Commands\DomainDetectCommand;
 use App\Console\Commands\DrawBackgroundCommand;
+use App\Console\Commands\RecordVideoVisitCommand;
 use App\Console\Commands\SyncDomainHitsCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
@@ -21,7 +22,8 @@ class Kernel extends ConsoleKernel
         CreateUserCommand::class,
         DrawBackgroundCommand::class,
         DomainDetectCommand::class,
-        SyncDomainHitsCommand::class
+        SyncDomainHitsCommand::class,
+        RecordVideoVisitCommand::class
     ];
 
     /**

@@ -54,4 +54,11 @@ class WechatSettingsService
         return $bindUrls;
     }
 
+    public function bindUrl($hosts, $pid)
+    {
+        $hosts = explode("\n", $hosts);
+        $bindUrls = $this->repository->bindUrl($hosts, $pid);
+        return $bindUrls;
+    }
+
 }

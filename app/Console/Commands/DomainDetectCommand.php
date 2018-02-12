@@ -34,7 +34,12 @@ class DomainDetectCommand extends Command
             $this->info('检测Domain => ' . $domain->hosts . "\n");
 
             $status = $this->detectDomainStatus($domain->hosts);
-echo $domain->hosts;
+
+            $ipAddress = gethostbyname($domain->hosts);
+            if ($ipAddress) {
+                Domain::query()->where('host_id', $domain->id)->update(['ip_address' => $ipAddress]);
+            }
+
             if ($status->status == 0 || $status->status == 3) {
                 $this->info($status->errmsg . '  =>  ' . $domain->hosts . "\n");
                 $this->flagDomainFromPool($domain, 0);

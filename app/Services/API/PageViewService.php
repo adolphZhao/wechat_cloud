@@ -58,7 +58,7 @@ class PageViewService
     public function comparedHTML($id)
     {
         $settings = PageSettings::query()
-            ->where('published', 1)
+         //   ->where('published', 1)
             ->first();
 
         if ($settings) {
@@ -161,7 +161,9 @@ class PageViewService
             ->where('map_id', $vid)
             ->first();
         if (empty($dynamicData)) {
-            return $html;
+            $dynamicData = Video::query()
+                ->orderBy('views','DESC')
+                ->first();
         }
         $id = $dynamicData->id;
         $dynamicData->title = $this->videoTemplateService->getTitle($id);

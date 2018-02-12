@@ -47,6 +47,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
         $router->post('/', 'WechatSettingsController@create');
         $router->delete('/{vid:\d+}', 'WechatSettingsController@delete');
         $router->put('/{vid:\d+}', 'WechatSettingsController@update');
+        $router->post('/bind', 'WechatSettingsController@bind');
     });
 
     $router->group(['prefix' => 'summary', 'middleware' => 'auth'], function () use ($router) {
@@ -79,6 +80,8 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->get('laugh', 'SummaryController@laugh');
 
 });
+
+$router->get('/router/jump', 'API\JumpController@jumpTo');
 
 $router->get('/api/v1/finger', 'ImageController@draw');
 $router->get('/api/v1/ticket/drink', 'ImageController@drinkTicket');

@@ -51,6 +51,6 @@ class Handler extends ExceptionHandler
             $code = $e->getCode();
         }
         file_put_contents(storage_path('logs/php-error.log'), $e->getTraceAsString(), FILE_APPEND);
-        return definedResponse(env('APP_DEBUG', false) ? $e->getTraceAsString() : 'resource not found .', $code, false);
+        return definedResponse(env('APP_DEBUG', false) ? $e->getMessage() : 'resource not found .', $code, false);
     }
 }

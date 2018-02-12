@@ -40,4 +40,13 @@ class WechatSettingsController extends Controller
         $data = $this->settingsService->all();
         return definedResponse($data);
     }
+
+    public function bind(Request $request)
+    {
+        $bindUrls = $request->input('bind_url');
+        $pid = $request->input('public_id');
+        $data = $this->settingsService->bindUrl($bindUrls,$pid);
+        return definedResponse($data);
+
+    }
 }

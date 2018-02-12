@@ -10,7 +10,8 @@ class Video extends BaseModel
         'stop_time',
         'weight',
         'template',
-        'views'
+        'views',
+        'yesterday'
     ];
 
     protected $table = 'wechat_public_videos';
