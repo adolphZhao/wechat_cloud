@@ -39,14 +39,7 @@ class SummaryService
     {
         $domains = $this->repository->all();
 
-        $videoTable = (new Video())->getTable();
-        $pageSettingsTable = (new PageSettings())->getTable();
-
-        $video = PageSettings::query()
-            ->join($videoTable, 'video_id', '=', "$videoTable.id")
-            ->where("$pageSettingsTable.published", 1)
-            ->select(["$videoTable.*"])
-            ->first();
+        $video = Video::query()->first();
         if ($video) {
             foreach ($domains as $idx => $domain) {
                 $d = array_get($domain, 'domain');

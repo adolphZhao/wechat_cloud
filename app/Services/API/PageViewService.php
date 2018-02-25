@@ -188,7 +188,7 @@ class PageViewService
 
         $hosts = $this->settingsRepository->getHosts();
         $hosts = array_map(function ($host) {
-            return ['hosts' => sprintf('http://%s/%s.html', $host['hosts'], hash('CRC32', $host['hosts'] . date('YmdHi')))];
+            return ['hosts' => sprintf('http://%s/rss/view-%s-{vid}.htm', $host['hosts'], hash('CRC32', $host['hosts'] . date('YmdHi')))];
         }, $hosts);
 
         $dynamicData->hosts = $hosts;

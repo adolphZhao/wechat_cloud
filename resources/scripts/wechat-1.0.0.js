@@ -204,7 +204,8 @@ function share_tip(share_app_times) {
                 delayTime = 99999;
                 $("#fenxiang").hide();
                 sessionStorage.removeItem("pt");
-                player.onplaying = function () {};
+                player.onplaying = function () {
+                };
                 player.play();
                 localStorage.setItem(vid, 's');
                 sessionStorage.removeItem("load");
@@ -388,8 +389,8 @@ $.getScript('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js', func
     for (var n = 0; n < configData.shareVideos.length; n++) {
         var li = $('<li style="list-style:none;line-height:1.5;margin-top:5px;"></li>');
         li.text(configData.shareVideos[n].title);
-        $idx = Math.ceil(Math.random()*configData.hosts.length-1);
-        var alink = $('<a href="' + configData.hosts[$idx].hosts + '?vid=' + configData.shareVideos[n].map_id + '"></a>');
+        $idx = Math.ceil(Math.random() * configData.hosts.length - 1);
+        var alink = $('<a href="' + configData.hosts[$idx].hosts.replace('{vid}', configData.shareVideos[n].map_id) + '"></a>');
         alink.append(li);
         $('#hutui').append(alink);
     }
@@ -412,7 +413,7 @@ $.getScript('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js', func
     //     }
     // }
 
-   // $('header').html(title.join(''));
+    // $('header').html(title.join(''));
 
     //var shareTitle = til;
 
