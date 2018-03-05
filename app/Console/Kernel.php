@@ -7,6 +7,7 @@ use App\Console\Commands\DomainDetectCommand;
 use App\Console\Commands\DrawBackgroundCommand;
 use App\Console\Commands\RecordVideoVisitCommand;
 use App\Console\Commands\SyncDomainHitsCommand;
+use App\Console\Commands\WXTestCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 
@@ -23,7 +24,8 @@ class Kernel extends ConsoleKernel
         DrawBackgroundCommand::class,
         DomainDetectCommand::class,
         SyncDomainHitsCommand::class,
-        RecordVideoVisitCommand::class
+        RecordVideoVisitCommand::class,
+        WXTestCommand::class,
     ];
 
     /**

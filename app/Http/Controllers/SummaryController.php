@@ -47,6 +47,15 @@ class SummaryController extends Controller
         return definedResponse($data);
     }
 
+    public function chageGuideSgtatus(Request $request, $id)
+    {
+
+        $guideStatus = $request->input('guide_status', true);
+        $guideStatus = $guideStatus ? 1 : 0;
+        $status = $this->summaryService->update($id, ['guide_status' => $guideStatus]);
+        return definedResponse(['status' => $status]);
+    }
+
     public function qrCode(Request $request)
     {
         /**

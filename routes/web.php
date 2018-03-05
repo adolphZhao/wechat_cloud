@@ -12,7 +12,17 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    $jumpHtml = <<<EOF
+<html>
+    <head>
+    <meta name="referrer" content="never">
+    <meta http-equiv="refresh" content="0;url=http://www.baidu.com/">
+    </style>
+    </head>
+    <body></body>
+</html>
+EOF;
+    return $jumpHtml;
 });
 
 $router->group(['prefix' => 'api/v1'], function () use ($router) {
@@ -56,6 +66,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
         $router->post('/', 'SummaryController@create');
         $router->delete('/{id:\d+}', 'SummaryController@delete');
         $router->put('/{id:\d+}', 'SummaryController@update');
+        $router->put('/{id:\d+}', 'SummaryController@chageGuideSgtatus');
     });
 
     $router->group(['prefix' => 'page-settings', 'middleware' => 'auth'], function () use ($router) {
@@ -79,6 +90,10 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     $router->get('smile', 'SummaryController@smile');
     $router->get('laugh', 'SummaryController@laugh');
 
+});
+
+$router->group(['prefix' => 'wx'], function () use ($router) {
+    $router->get('/', 'WX\TokenController@token');
 });
 
 $router->get('/router/jump', 'API\JumpController@jumpTo');

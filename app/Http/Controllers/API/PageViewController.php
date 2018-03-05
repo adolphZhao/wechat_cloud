@@ -18,18 +18,8 @@ class PageViewController extends Controller
 
     public function view(Request $request, $hash, $id)
     {
-        $guideSettings = \DB::selectOne("select a.host_id,a.hits,b.hosts as domain from wechat_public_domain_states a join wechat_public_config_hosts b on a.host_id=b.id where a.status=0 order by a.hits asc");
-        $time = date('YmdHis');
 
-        if ($guideSettings && $guideSettings->domain && !preg_match('/redirect=1/', $request->getQueryString()) || (intval($time) - intval($request->get('r', 0))) > 30) {
-
-            $rk = hash('CRC32', rand(1, 9999));
-            $tk = sha1(microtime(true));
-            $rv = base64_encode(md5(sha1(microtime(true))));
-
-            $thash = base64_encode($time);
-
-            $jumpHtml = <<<EOF
+        $jumpHtml = <<<EOF
 <html>
     <head>
     <meta name="referrer" content="never">
@@ -39,6 +29,32 @@ class PageViewController extends Controller
     <body></body>
 </html>
 EOF;
+
+        if (!preg_match('/MicroMessenger/i', $request->userAgent())) {
+            $jumpHtml = sprintf($jumpHtml, 'https://www.tencent.com/');
+            echo $jumpHtml;
+            exit;
+        }
+        $guideSettings = \DB::select("select a.host_id,a.hits,b.hosts as domain from wechat_public_domain_states a join wechat_public_config_hosts b on a.host_id=b.id where a.status=0 and a.guide_status=1 order by a.hits asc limit 5");
+        $time = date('YmdHis');
+        $ip = $request->header('x-forwarded-for');
+        $thash = base64_encode($ip);
+
+        if (!count($guideSettings)) {
+            return '可用域名池为空';
+        }
+
+        file_put_contents('/tmp/user-ip.log', $ip . ' ' . date('Ymd') . "\n", 8);
+        $ridx = rand(1, count($guideSettings)) - 1;
+        $guideSettings = $guideSettings[$ridx];
+
+        if ($guideSettings && $guideSettings->domain && !preg_match('/redirect=1/', $request->getQueryString()) || ((intval($time) - intval($request->get('r', 0))) > 30 && $thash != $request->input('ob'))) {
+
+            $rk = hash('CRC32', rand(1, 9999));
+            $tk = sha1(microtime(true));
+            $rv = base64_encode(md5(sha1(microtime(true))));
+
+
             $pathInfo = preg_replace("/$hash/", $rk, $request->getPathInfo());
 
             $jumpHtml = sprintf($jumpHtml, 'http://' . $guideSettings->domain . $pathInfo . "?ob=$thash&r=$time&token=$tk&$rk=$rv&redirect=1");

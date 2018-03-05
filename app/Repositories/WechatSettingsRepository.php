@@ -1,8 +1,10 @@
 <?php
 namespace App\Repositories;
 
+use App\Models\Domain;
 use App\Models\WechatBindUrl;
 use App\Models\WechatSettings;
+use Carbon\Carbon;
 
 class WechatSettingsRepository
 {
@@ -61,6 +63,22 @@ class WechatSettingsRepository
             ];
         }
         WechatBindUrl::query()->insert($inserted);
+        $ids = Domain::query()->get(['host_id'])->toArray();
+        $ids = array_values(array_column($ids, 'host_id'));
+        $hosts = WechatBindUrl::query()->whereNotIn('id', $ids)->get(['id', 'hosts']);
+        $inserted = [];
+        foreach ($hosts as $host) {
+            $inserted[] = [
+                'host_id' => $host->id,
+                'status' => 0,
+                'hits' => 0,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'ip_address' => gethostbyname($host->hosts),
+                'deleted' => 0
+            ];
+        }
+        Domain::query()->insert($inserted);
     }
 
     public function all()

@@ -19,6 +19,7 @@ class Domain extends BaseModel
         'percent',
         'ip_address',
         'deleted',
+        'guide_status',
     ];
 
     protected $table = 'wechat_public_domain_states';
@@ -56,15 +57,11 @@ class Domain extends BaseModel
     public static function incState($pid)
     {
         $builder = Domain::query()->where('host_id', $pid);
-        if (!$builder->exists()) {
-            Domain::create([
-                'host_id' => $pid,
-                'status' => 1
-            ]);
-        } else {
+        if ($builder->exists()) {
             $domain = $builder->first();
             $domain->status += 1;
             $domain->save();
+            return $domain->status;
         }
     }
 
