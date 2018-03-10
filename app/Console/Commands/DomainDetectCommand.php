@@ -20,6 +20,8 @@ class DomainDetectCommand extends Command
 
     protected $accessToken;
 
+    protected $warning = false;
+
 
     public function __construct(Client $client)
     {
@@ -52,9 +54,13 @@ class DomainDetectCommand extends Command
             if ($status->status == 0 || $status->status == 3) {
                 $this->info($status->errmsg . '  =>  ' . $domain->hosts . "\n");
                 $this->flagDomainFromPool($domain, 0);
-            } else {
+            } else if ($status->status == 2) {
                 $this->warn($status->errmsg . '  =>  ' . $domain->hosts . '.' . $status->status . "\n");
                 $this->flagDomainFromPool($domain, 1);
+            } else if ($status->status == -1 && !$this->warning) {
+                $this->warn($status->errmsg . '  =>  ' . $domain->hosts . '.' . $status->status . "\n");
+                $this->sendMessage('API到期，请续费，联系QQ192584');
+                $this->warning = true;
             }
             sleep(2);
         }

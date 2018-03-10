@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
     <link rel="icon" href="data:image/ico;base64,aWNv">
-    <link rel="stylesheet" href="{host}/public/css/all.css?2017110701">
+    <link rel="stylesheet" href="/public/css/all.css?2017110701">
     <link href="https://cdn.bootcss.com/weui/1.0.2/style/weui.min.css" rel="stylesheet">
     <link href="http://cdn.staticfile.org/emoji/0.2.2/emoji.css" rel="stylesheet" type="text/css"/>
     <link href="http://bluewoods.cn/css/main.css" rel="stylesheet" type="text/css"/>
@@ -33,7 +33,7 @@
                 <a href="{report}"
                    style="align:right">
                         <span class="complaint" style="color:#ff0000">
-                            <image src="{host}/public/images/7d9621771520a6bffb26a46995fbac1a.png"
+                            <image src="/public/images/7d9621771520a6bffb26a46995fbac1a.png"
                                    style="width:18px;height:18px;align:right;vertical-align:top;"/> 举报
                         </span>
                 </a>
@@ -72,7 +72,7 @@
 </div>
 
 <div>
-    <img src="{host}/public/images/fxq2.png?2017110701" id="s">
+    <img src="/public/images/fxq2.png?2017110701" id="s">
     <div id="loadingToast" style="display:none;">
         <div class="weui-mask_transparent"></div>
         <div class="weui-toast" style="width:11em;margin-left:-5.5em">

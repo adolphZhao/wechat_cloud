@@ -58,14 +58,14 @@ class PageViewService
     public function comparedHTML($id)
     {
         $settings = PageSettings::query()
-         //   ->where('published', 1)
+            //   ->where('published', 1)
             ->first();
 
         if ($settings) {
 
             $html = file_get_contents(resource_path('templates/base.template'));
 
-            $html = $this->hostRender($html);
+            //$html = $this->hostRender($html);
             $html = $this->reportRender($html, $settings->report);
             $html = $this->adTopRender($html, $settings->ad_top_show);
             $html = $this->adBottomRender($html, $settings->ad_bottom_show);
@@ -162,7 +162,7 @@ class PageViewService
             ->first();
         if (empty($dynamicData)) {
             $dynamicData = Video::query()
-                ->orderBy('views','DESC')
+                ->orderBy('views', 'DESC')
                 ->first();
         }
         $id = $dynamicData->id;
@@ -186,9 +186,9 @@ class PageViewService
 
         $finalVideos = array_splice($finalVideos, 0, 3);
 
-        $hosts = $this->settingsRepository->getHosts();
+        $hosts = [1,2,3];
         $hosts = array_map(function ($host) {
-            return ['hosts' => sprintf('http://%s/rss/view-%s-{vid}.htm', $host['hosts'], hash('CRC32', $host['hosts'] . date('YmdHi')))];
+            return ['hosts' => sprintf('/rss/view-%s-{vid}.htm', hash('CRC32', $host['hosts'] . date('YmdHi')))];
         }, $hosts);
 
         $dynamicData->hosts = $hosts;
