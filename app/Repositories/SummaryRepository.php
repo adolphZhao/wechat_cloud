@@ -30,6 +30,25 @@ class SummaryRepository
 
     public function update($id, $attributes)
     {
+
+        $domain = Domain::query()
+            ->join('wechat_public_config_hosts', 'host_id', '=', 'wechat_public_config_hosts.id')
+            ->where('wechat_public_domain_states.id', $id)
+            ->first(['wechat_public_config_hosts.hosts']);
+
+        $relation = @json_decode(\Cache::get('GUIDE_RELATION'), true);
+
+        $cached = [];
+        while (!empty($relation)) {
+            $d = array_shift($relation);
+
+            if (array_get($d, 'domain') != $domain->hosts) {
+                $cached [] = $d;
+            }
+        }
+
+        \Cache::put('GUIDE_RELATION', json_encode($cached), array_get($cached, '0.guide_time', 0) * 3600);
+
         return Domain::query()->where('id', $id)->update($attributes);
     }
 
