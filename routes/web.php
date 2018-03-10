@@ -78,6 +78,15 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
         $router->post('/{id:\d+}', 'PageSettingsController@publish');
     });
 
+    $router->group(['prefix' => 'guide-settings', 'middleware' => 'auth'], function () use ($router) {
+        $router->get('/', 'GuideSettingsController@all');
+        $router->get('/{id:\d+}', 'GuideSettingsController@get');
+        $router->post('/', 'GuideSettingsController@create');
+        $router->delete('/', 'GuideSettingsController@delete');
+        $router->put('/{id:\d+}', 'GuideSettingsController@update');
+        $router->post('/{id:\d+}', 'GuideSettingsController@publish');
+    });
+
     $router->group(['prefix' => 'user', 'middleware' => 'auth'], function () use ($router) {
 
         $router->get('/detail', 'LoginController@detail');
@@ -94,6 +103,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
 $router->group(['prefix' => 'wx'], function () use ($router) {
     $router->get('/', 'WX\TokenController@token');
+    $router->post('/', 'WX\TokenController@message');
 });
 
 $router->get('/router/jump', 'API\JumpController@jumpTo');

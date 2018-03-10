@@ -120,7 +120,7 @@ class DomainDetectCommand extends Command
                 RequestOptions::JSON => [
                     'touser' => 'oWTePwSS730fPZw6L_oCTu0j-cxo',
                     'template_id' => 'OUIvBG3Ar0mUl1g5BB2O0lNBXrWHeCKMpVoGtlMCA7g',
-                    'url' => 'https://www.baidu.com',
+                    'url' => "http://$domain/rss/view-hash-22.htm",
                     'data' => [
                         'domain' => [
                             'value' => $domain,
