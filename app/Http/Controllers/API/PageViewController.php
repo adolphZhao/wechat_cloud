@@ -78,8 +78,8 @@ EOF;
             $time = date('YmdHis');
 
             $pathInfo = preg_replace("/$hash/", $rk, $path);
-            
-            $jumpHtml = sprintf($this->jumpHtml, 'http://' . $redirect  . $pathInfo . "?ob=$thash&r=$time&token=$tk&$rk=$rv");
+
+            $jumpHtml = sprintf($this->jumpHtml, 'http://' . $redirect . ($redirect == 'localhost' ? ':5001' : '') . $pathInfo . "?ob=$thash&r=$time&token=$tk&$rk=$rv");
             echo $jumpHtml;
             exit;
         }

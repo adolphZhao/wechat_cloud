@@ -52,7 +52,7 @@ class SummaryController extends Controller
 
         $guideStatus = $request->input('guide_status', true);
         $guideStatus = $guideStatus ? 1 : 0;
-        $status = $this->summaryService->update($id, ['guide_status' => $guideStatus]);
+        $status = $this->summaryService->update($id, ['guide_status' => $guideStatus, 'status' => $guideStatus ? 0 : 999]);
         return definedResponse(['status' => $status]);
     }
 
